@@ -8,12 +8,12 @@ window.onload=function(){
 
     console.log(pw_show_hide, input_id, input_pw, id_error,pw_error)
 
-input_id.addEventListener('clic',function(){
-    id_error.style.display = 'block'
-})
-input_pw.addEventListener('clic',function(){
-    pw_error.style.display = 'block'
-})
+    input_id.addEventListener('clic',function(){
+        id_error.style.display = 'block'
+    })
+    input_pw.addEventListener('clic',function(){
+        pw_error.style.display = 'block'
+    })
 
     let i = true
     pw_show_hide.addEventListener('click',function(){

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>my Movie reviews (ver2)</title>
+    <style>
+        body { font-family: sans-serif; max-width: 700px; margin: 50px auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #f5f5f5; }
+        h1 { margin-bottom: 10px; }
+        .badge { background: #e3f2fd; padding: 2px 8px; border-radius: 10px; font-size: 12px; color: #1976D2; margin-bottom: 15px; display: inline-block; }
+        .btn { padding: 5px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 13px; }
+        .btn-add { background: #4CAF50; margin-bottom: 15px; display: inline-block; }
+        .btn-delete { background: #f44336; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 4px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: sans-serif; }
+        .form-group textarea { height: 80px; resize: vertical; }
+        #write-form { background: #fafafa; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; }
+    </style>
+</head>
+<body>
+    <h1>my Movie reviews</h1>
+    <span class="badge">Part 3: 클라이언트 렌더링 (JS + API)</span>
+    <br>
+    <button class="btn btn-add" onclick="toggleForm()">+ 리뷰 작성</button>
+
+    <div id="write-form">
+        <div class="form-group">
+            <label>영화 제목</label>
+            <input type="text" id="new-title">
+        </div>
+        <div class="form-group">
+            <label>개봉 년도</label>
+            <input type="number" id="new-release-year">
+        </div>
+        <div class="form-group">
+            <label>감독</label>
+            <input type="text" id="new-director">
+        </div>
+        <div class="form-group">
+            <label>주연</label>
+            <input type="text" id="new-actor">
+        </div>
+        <div class="form-group">
+            <label>장르</label>
+            <input type="text" id="new-genre">
+        </div>
+        <div class="form-group">
+            <label>별점</label>
+            <input type="number" id="new-rating" step="0.5" min="0" max="0">
+        </div>
+        <div class="form-group">
+            <label>러닝 타임</label>
+            <input type="number" id="new-running-time">
+        </div>
+        <div class="form-group">
+            <label>리뷰 내용</label>
+            <textarea id="new-content"></textarea>
+        </div>
+        <button class="btn btn-add" onclick="createReview()">저장</button>
+        <button class="btn" style="background:#666" onclick="toggleForm()">취소</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>영화 제목</th>
+                <th>개봉 년도</th>
+                <th>장르</th>
+                <th>별점</th>
+                <th>작성일</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="review-list"></tbody>
+    </table>
+
+    <br>
+    <a href="{% url 'review-list' %}">&larr; ver1(템플릿 버전)으로 보기</a>
+
+    <script>
+        const API_URL = '/api/movies/';
+
+        // 리뷰 목록 불러오기 (Read)
+        function loadReviews() {
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(reviews => {
+                    const tbody = document.getElementById('review-list');
+                    tbody.innerHTML = '';
+
+                    if (reviews.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7">작성된 리뷰가 없습니다.</td></tr>';
+                        return;
+                    }
+
+                    reviews.forEach(review => {
+                        const date = new Date(review.created_at);
+                        const dateStr = date.toLocaleDateString('ko-KR') + ' ' + date.toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'});
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${review.id}</td>
+                            <td>${review.title}</td>
+                            <td>${review.release_year}</td>
+                            <td>${review.genre}</td>
+                            <td>${review.rating}</td>
+                            <td>${dateStr}</td>
+                            <td><button class="btn btn-delete" onclick="deletePost(${review.id})">삭제</button></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        // 리뷰 작성 (Create)
+        function createReview() {
+            const title = document.getElementById('new-title').value.trim();
+            const release_year = document.getElementById('new-release-year').value;
+            const director = document.getElementById('new-director').value.trim();
+            const actor = document.getElementById('new-actor').value.trim();
+            const genre = document.getElementById('new-genre').value.trim();
+            const rating = document.getElementById('new-rating').value;
+            const running_time = document.getElementById('new-running-time').value;
+            const content = document.getElementById('new-content').value.trim();
+            if (!title || !release_year || !director || !actor || !genre || !rating || !running_time || !content) {
+                alert("모든 항목을 입력해주세요.");
+                return;
+            }
+
+            fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify({
+                    title: title,
+                    release_year: release_year,
+                    director: director,
+                    actor: actor,
+                    genre: genre,
+                    rating: rating,
+                    running_time: running_time,
+                    content: content
+                }),
+            })
+            .then(res => res.json())
+            .then(() => {
+                document.getElementById('new-title').value = '';
+                document.getElementById('new-release-year').value = '';
+                document.getElementById('new-director').value = '';
+                document.getElementById('new-actor').value = '';
+                document.getElementById('new-genre').value = '';
+                document.getElementById('new-rating').value = '';
+                document.getElementById('new-running-time').value = '';
+                document.getElementById('new-content').value = '';
+                toggleForm();
+                loadReviews();
+            });
+        }
+
+        // 리뷰 삭제 (Delete)
+        function deleteReview(id) {
+            if (!confirm('정말 삭제하시겠습니까?')) return;
+
+            fetch(API_URL + id + '/', {
+                method: 'DELETE',
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+            })
+            .then(() => loadReviews());
+        }
+
+        // 리뷰 작성 폼 열기/닫기
+        function toggleForm() {
+            const form = document.getElementById('write-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // CSRF 토큰 가져오기
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return '';
+        }
+
+        // 페이지 로드 시 리뷰 목록 불러오기
+        loadReviews();
+    </script>
+</body>
+</html>
