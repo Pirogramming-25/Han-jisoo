@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디어 상세</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f245c;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #1e90ff;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 40px;
+            align-items: stretch;
+        }
+
+        .image-area {
+            width: 100%;
+            min-height: 420px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #E3E4FF 0%, #F3D2FE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .image-area img {
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .detail-main {
+            width: 100%;
+        }
+
+        .detail-title {
+            margin: 0 0 28px;
+            font-size: 38px;
+            line-height: 1.3;
+            color: #222;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .info-box {
+            background: #f8f8fb;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+            padding: 18px 20px;
+        }
+
+        .info-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #157dec;
+        }
+
+        .info-value {
+            font-size: 17px;
+            font-weight: 800;
+            color: #333;
+        }
+
+        .description-box {
+            padding: 24px;
+            background: #fff;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+        }
+
+        .description-box h2 {
+            margin: 0 0 14px;
+            font-size: 20px;
+            color: #222;
+        }
+
+        .description-box p {
+            margin: 0;
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+            white-space: pre-line;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 34px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-list {
+            background: #f1f1f5;
+            color: #555;
+        }
+
+        .btn-list:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-update {
+            background: #157dec;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: #1e90ff;
+            box-shadow: 0 8px 20px rgba(117, 126, 255, 0.35);
+        }
+
+        .btn-delete {
+            background: red;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #ff5b7c;
+            box-shadow: 0 8px 20px rgba(255, 92, 122, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .detail-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .image-area {
+                min-height: 280px;
+            }
+
+            .image-area img {
+                min-height: 280px;
+            }
+
+            .button-row {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 32px auto;
+            }
+
+            .detail-card {
+                padding: 24px;
+            }
+
+            .detail-title {
+                font-size: 28px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+        .devtool-link {
+            color: #111;
+            text-decoration: none;
+            font-weight: 900;
+            transition: all 0.2s ease;
+        }
+
+        .devtool-link:hover {
+            color: #1e90ff;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage' %}">아이디어 관리</a>
+            <a href="{% url 'devtool-add' %}">개발툴 등록</a>
+            <a href="{% url 'devtool-manage' %}">개발툴 관리</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="detail-card">
+            <div class="detail-layout">
+
+                <div class="image-area">
+                    {% if idea.image %}
+                        <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
+                    {% else %}
+                        <span>No Image</span>
+                    {% endif %}
+                </div>
+
+                <div class="detail-content">
+                    <div class="detail-main">
+                        <h1 class="detail-title">{{ idea.title }}</h1>
+
+                        <div class="info-grid">
+                            <div class="info-box">
+                                <span class="info-label">아이디어 관심도</span>
+                                <span class="info-value">{{ idea.interest }}</span>
+                            </div>
+
+                            <div class="info-box">
+                                <span class="info-label">예상 개발툴</span>
+                                <span class="info-value">
+                                    {% if devtool %}
+                                        <a href="{% url 'devtool-detail' devtool.pk %}" class="devtool-link">
+                                            {{ devtool.name }}
+                                        </a>
+                                    {% else %}
+                                        {{ idea.expected_devtool|default:"미정" }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="description-box">
+                            <h2>아이디어 설명</h2>
+                            <p>{{ idea.content }}</p>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <a href="{% url 'idea-delete' idea.pk %}" class="btn btn-delete">삭제</a>
+                        <a href="{% url 'idea-list' %}" class="btn btn-list">목록</a>
+                        <a href="{% url 'idea-update' idea.pk %}" class="btn btn-update">수정</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</body>
+</html>

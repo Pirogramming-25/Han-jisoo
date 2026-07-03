@@ -1,0 +1,481 @@
+<!-- ideas/templates/ideas/idea_list.html -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>My SW Idea Manage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #111;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #1e90ff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sort-form select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .sort-form select:hover {
+            border-color: #1e90ff;
+        }
+
+        .sort-form select:focus {
+            border-color: #157dec;
+        }
+
+        .create-btn {
+            background: #157dec;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .create-btn:hover {
+            background: #1e90ff;
+            box-shadow: 0 8px 20px rgba(194, 194, 205, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .idea-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .idea-card {
+            position: relative;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 250px;
+        }
+
+        .idea-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #ddd;
+        }
+
+        .no-image {
+            height: 180px;
+            background: linear-gradient(135deg, #e0e7ff, #d0dcfe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .star-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: #111;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .star-btn:hover {
+            transform: translateY(-2px);
+            color: #111;
+        }
+
+        .star-btn.active {
+            background: transparent;
+            color: #ffd43b;
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card-content h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+        }
+
+        .card-content h2 a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        .card-content h2 a:hover {
+            color: #157dec;
+        }
+
+        .card-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .date {
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 1000px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .idea-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+        @media (max-width: 600px) {
+            .idea-grid {
+                grid-template-colums: 1fr;
+            }
+        }
+        .interest-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        .interest-box span {
+            color: #555;
+            font-weight: 700;
+        }
+
+        .interest-box strong {
+            width: 28px;
+            height: 28px;
+            border-radius: 0;
+            background: none;
+            color: #1e90ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            width: auto;
+        }
+
+        .interest-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 0;
+            background: none;
+            color: #1e90ff;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .interest-btn:hover {
+            background: none;
+            color: none;
+            box-shadow: none;
+            transform: translateY(-0.5px);
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 36px 0;
+        }
+
+        .pagination a {
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: #e6e6e9;
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .pagination a:hover {
+            background: #157dec;
+            color: white;
+            box-shadow: 0 8px 20px rgba(194, 194, 205, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .pagination span {
+            color: #555;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage'%}">아이디어 관리</a>    
+            <a href="{% url 'devtool-add'%}">개발툴 등록</a>    
+            <a href="{% url 'devtool-manage'%}">개발툴 관리</a>    
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>아이디어 관리</h1>
+                <p>내가 떠올린 서비스 아이디어를 모아보세요.</p>
+            </div>
+
+            <div class="header-actions">
+                <form method="get" class="sort-form">
+                    <select name="sort" onchange="this.form.submit()">
+                        <option value="latest" {% if sort == 'latest' %}selected{% endif %}>최신순</option>
+                        <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>등록순</option>
+                        <option value="name" {% if sort == 'name' %}selected{% endif %}>이름순</option>
+                        <option value="star" {% if sort == 'star' %}selected{% endif %}>찜하기순</option>
+                    </select>
+                </form>
+
+                <a href="{% url 'idea-create' %}" class="create-btn">+ 아이디어 등록</a>
+            </div>
+        </div>
+
+        <div class="idea-grid">
+            {% for idea in page_obj %}
+                <article class="idea-card">
+                    <button
+                        type="button"
+                        class="star-btn {% if idea.is_starred %}active{% endif %}"
+                        data-id="{{ idea.pk }}"
+                    >
+                        {% if idea.is_starred %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    </button>
+
+                    {% if idea.image %}
+                        <img src="{{ idea.image.url }}" alt="{{ idea.title }}" class="thumbnail">
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+
+                    <div class="card-content">
+                        <h2>
+                            <a href="{% url 'idea-detail' idea.pk %}">
+                                {{ idea.title }}
+                            </a>
+                        </h2>
+
+                        <p class="tool">
+                            예상 개발툴: {{ idea.expected_devtool|default:"미정" }}
+                        </p>
+
+                        <div class="interest-box">
+                            <span>관심도</span>
+
+                            <button 
+                                type="button"
+                                class="interest-btn"
+                                data-id="{{ idea.pk }}"
+                                data-action="minus"
+                            >
+                                -
+                            </button>
+
+                            <strong id="interest-{{ idea.pk }}">
+                                {{ idea.interest }}
+                            </strong>
+
+                            <button 
+                                type="button"
+                                class="interest-btn"
+                                data-id="{{ idea.pk }}"
+                                data-action="plus"
+                            >
+                                +
+                            </button>
+                        </div>
+
+                        <span class="date">{{ idea.created_at|date:"Y.m.d" }}</span>
+                    </div>
+                </article>
+            {% empty %}
+                <p>등록된 아이디어가 없습니다.</p>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+            {% endif %}
+
+            <span>
+                {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">다음</a>
+            {% endif %}
+        </div>
+    </main>
+    <script>
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+
+        return '';
+    }
+
+    const interestButtons = document.querySelectorAll('.interest-btn');
+
+    interestButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+            const ideaId = this.dataset.id;
+            const action = this.dataset.action;
+
+            fetch(`/ideas/${ideaId}/interest/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=${action}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const interestNumber = document.getElementById(`interest-${ideaId}`);
+                    interestNumber.textContent = data.interest;
+                }
+            });
+        });
+    });
+    const starButtons = document.querySelectorAll('.star-btn');
+
+    starButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+            const ideaId = this.dataset.id;
+
+            fetch(`/ideas/${ideaId}/star/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.is_starred) {
+                        this.textContent = '★';
+                        this.classList.add('active');
+                    } else {
+                        this.textContent = '☆';
+                        this.classList.remove('active');
+                    }
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
