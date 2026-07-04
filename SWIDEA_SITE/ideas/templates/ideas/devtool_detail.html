@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>개발툴 상세</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f245c;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #1e90ff;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 12px;
+            font-size: 36px;
+            color: #222;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 26px;
+            padding: 42px 48px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        .tool-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .tool-name {
+            margin: 0 0 12px;
+            font-size: 38px;
+            color: #1f245c;
+        }
+
+        .tool-kind {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #E3E4FF 0%, #d5d2fe 100%);
+            color: #157dec;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .info-section {
+            margin-top: 30px;
+        }
+
+        .info-section h2 {
+            margin: 0 0 14px;
+            font-size: 20px;
+            color: #222;
+        }
+
+        .description-box {
+            background: #f8f8fb;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+            padding: 22px 24px;
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+            white-space: pre-line;
+        }
+
+        .idea-list-box {
+            background: #fff;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+            padding: 22px 24px;
+        }
+
+        .idea-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .idea-list li {
+            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .idea-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .idea-list a {
+            color: #157dec;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .idea-list a:hover {
+            text-decoration: underline;
+        }
+
+        .empty-text {
+            margin: 0;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 38px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-delete {
+            background: #ff5c7a;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: red;
+            box-shadow: 0 8px 20px rgba(255, 92, 122, 0.3);
+        }
+
+        .btn-list {
+            background: #f1f1f5;
+            color: #555;
+        }
+
+        .btn-list:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-update {
+            background: #157dec;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: #1e90ff;
+            box-shadow: 0 8px 20px rgba(92, 102, 246, 0.35);
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 32px auto;
+            }
+
+            .detail-card {
+                padding: 30px 24px;
+            }
+
+            .tool-top {
+                flex-direction: column;
+            }
+
+            .tool-name {
+                font-size: 30px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage' %}">아이디어 관리</a>
+            <a href="{% url 'devtool-add' %}">개발툴 등록</a>
+            <a href="{% url 'devtool-manage' %}">개발툴 관리</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>개발툴 디테일</h1>
+            <p>개발툴의 설명과 이 툴로 구현할 수 있는 아이디어를 확인해보세요.</p>
+        </section>
+
+        <section class="detail-card">
+            <div class="tool-top">
+                <div>
+                    <h2 class="tool-name">{{ devtool.name }}</h2>
+                    <span class="tool-kind">{{ devtool.kind }}</span>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>개발툴 설명</h2>
+                <div class="description-box">
+                    {{ devtool.content }}
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>이 툴로 만들 수 있는 SW 목록</h2>
+
+                <div class="idea-list-box">
+                    {% if ideas %}
+                        <ul class="idea-list">
+                            {% for idea in ideas %}
+                                <li>
+                                    <a href="{% url 'idea-detail' idea.pk %}">
+                                        {{ idea.title }}
+                                    </a>
+                                    <span> - {{ idea.content|truncatechars:60 }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="empty-text">아직 이 개발툴과 연결된 아이디어가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="button-row">
+                <a href="{% url 'devtool-delete' devtool.pk %}" class="btn btn-delete">삭제</a>
+                <a href="{% url 'devtool-manage' %}" class="btn btn-list">목록</a>
+                <a href="{% url 'devtool-update' devtool.pk %}" class="btn btn-update">수정</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>개발툴 관리</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f245c;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #1e90ff;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 12px;
+            font-size: 36px;
+            color: #222;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 26px;
+            padding: 36px 42px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        .tool-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .tool-title h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #1f245c;
+        }
+
+        .add-btn {
+            background: #157dec;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .add-btn:hover {
+            background: #1e90ff;
+            box-shadow: 0 8px 20px rgba(42, 43, 112, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .tool-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        .tool-table thead {
+            background: linear-gradient(135deg, #E3E4FF 0%, #d2d7fe 100%);
+        }
+
+        .tool-table th {
+            padding: 18px 16px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .tool-table td {
+            padding: 18px 16px;
+            border-bottom: 1px solid #eeeeee;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .tool-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tool-name {
+            font-weight: 800;
+            color: black;
+            white-space: nowrap;
+        }
+
+        .tool-name-link {
+            color: black;
+            text-decoration: none;
+            font-weight: 900;
+            transition: all 0.2s ease;
+        }
+
+        .tool-name-link:hover {
+            color: #1e90ff;
+        }
+
+        .tool-desc {
+            color: #555;
+        }
+
+        .detail-link {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: #f1f1f5;
+            color: #555;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .detail-link:hover {
+            background: #e3e5ff;
+            color: #1e90ff;
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: #d2d7fe;
+            color: #157dec;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 32px auto;
+            }
+
+            .tool-card {
+                padding: 26px 22px;
+                overflow-x: auto;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .tool-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .tool-table {
+                min-width: 760px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage' %}">아이디어 관리</a>
+            <a href="{% url 'devtool-add' %}">개발툴 등록</a>
+            <a href="{% url 'devtool-manage' %}">개발툴 관리</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>개발툴 관리</h1>
+            <p>아이디어 구현에 사용할 수 있는 개발툴 목록을 확인해보세요.</p>
+        </section>
+
+        <section class="tool-card">
+            <div class="tool-title">
+                <h2>DevTool List</h2>
+                <a href="{% url 'devtool-add' %}" class="add-btn">+ 개발툴 등록</a>
+            </div>
+
+            <table class="tool-table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>분류</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for devtool in devtools %}
+                        <tr>
+                            <td class="tool-name">
+                                <a href="{% url 'devtool-detail' devtool.pk %}" class="tool-name-link">
+                                    {{ devtool.name }}
+                                </a>
+                            </td>
+                            <td><span class="tag">{{ devtool.kind }}</span></td>
+                            <td class="tool-desc">{{ devtool.content }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">등록된 개발툴이 없습니다.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

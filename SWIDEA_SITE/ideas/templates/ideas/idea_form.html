@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디어 등록/수정</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f245c;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #157dec;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 24px;
+            padding: 44px 52px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-header {
+            margin-bottom: 34px;
+        }
+
+        .form-header h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            color: #222;
+        }
+
+        .form-header p {
+            margin: 0;
+            color: #777;
+            font-size: 15px;
+        }
+
+        .idea-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 800;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            box-sizing: border-box;
+            font-size: 15px;
+            font-family: inherit;
+            background: #fff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #157dec;
+        }
+
+        .form-group textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .file-box {
+            padding: 18px;
+            border-radius: 16px;
+        }
+
+        .file-box input {
+            background: white;
+        }
+
+        .current-image {
+            margin-top: 14px;
+            font-size: 14px;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .current-image img {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 14px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 36px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-save {
+            background: #157dec;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #1e90ff;
+            box-shadow: 0 8px 20px rgba(233, 232, 240, 0.35);
+        }
+
+        .btn-cancel {
+            background: #f1f1f5;
+            color: #555;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 32px auto;
+            }
+
+            .form-card {
+                padding: 30px 24px;
+            }
+
+            .form-header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage' %}">아이디어 관리</a>
+            <a href="{% url 'devtool-add' %}">개발툴 등록</a>
+            <a href="{% url 'devtool-manage' %}">개발툴 관리</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="form-card">
+            <div class="form-header">
+                {% if idea %}
+                    <h1>아이디어 수정</h1>
+                    <p>등록한 아이디어의 내용을 수정해보세요.</p>
+                {% else %}
+                    <h1>아이디어 등록</h1>
+                    <p>떠오른 서비스 아이디어를 기록해보세요.</p>
+                {% endif %}
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="idea-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="title">아이디어명</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        value="{{ idea.title }}"
+                        placeholder="아이디어명을 입력하세요"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="content">아이디어 설명</label>
+                    <textarea
+                        name="content"
+                        id="content"
+                        placeholder="아이디어 설명을 입력하세요"
+                        required
+                    >{{ idea.content }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="expected_devtool">예상 개발툴</label>
+                    <select name="expected_devtool" id="expected_devtool">
+                        <option value="">개발툴을 선택하세요</option>
+                        <option value="Django" {% if idea.expected_devtool == "Django" %}selected{% endif %}>Django</option>
+                        <option value="React" {% if idea.expected_devtool == "React" %}selected{% endif %}>React</option>
+                        <option value="Spring" {% if idea.expected_devtool == "Spring" %}selected{% endif %}>Spring</option>
+                        <option value="Node.js" {% if idea.expected_devtool == "Node.js" %}selected{% endif %}>Node.js</option>
+                        <option value="Java" {% if idea.expected_devtool == "Java" %}selected{% endif %}>Java</option>
+                        <option value="C++" {% if idea.expected_devtool == "C++" %}selected{% endif %}>C++</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="interest">아이디어 관심도</label>
+                    <input
+                        type="number"
+                        name="interest"
+                        id="interest"
+                        value="{% if idea %}{{ idea.interest }}{% else %}0{% endif %}"
+                        min="0"
+                    >
+                </div>
+
+                <div class="form-group file-box">
+                    <label for="image">사진</label>
+                    <input type="file" name="image" id="image">
+
+                    {% if idea.image %}
+                        <div class="current-image">
+                            현재 이미지
+                            <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="btn btn-save">저장</button>
+                    <a href="{% url 'idea-list' %}" class="btn btn-cancel">취소</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

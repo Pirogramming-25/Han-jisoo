@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디어 삭제</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f245c;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #1e90ff;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 70px auto;
+            padding: 0 24px;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 26px;
+            padding: 44px 52px;
+            text-align: center;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        .warning-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #E3E4FF 0%, #d2defe 100%);
+            color: #157dec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 900;
+        }
+
+        h1 {
+            margin: 0 0 16px;
+            font-size: 32px;
+            color: #222;
+        }
+
+        .delete-text {
+            margin: 0;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .idea-title {
+            color: #157dec;
+            font-weight: 900;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 36px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-delete {
+            background: red;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #ef3f62;
+            box-shadow: 0 8px 20px rgba(255, 92, 122, 0.3);
+        }
+
+        .btn-cancel {
+            background: #f1f1f5;
+            color: #555;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'idea-list' %}" class="logo">My SW Idea Manage</a>
+
+        <div class="nav-links">
+            <a href="{% url 'idea-create' %}">아이디어 등록</a>
+            <a href="{% url 'idea-manage' %}">아이디어 관리</a>
+            <a href="{% url 'devtool-add' %}">개발툴 등록</a>
+            <a href="{% url 'devtool-manage' %}">개발툴 관리</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="delete-card">
+            <div class="warning-icon">!</div>
+
+            <h1>아이디어 삭제</h1>
+
+            <p class="delete-text">
+                정말 <span class="idea-title">{{ idea.title }}</span> 아이디어를 삭제하시겠습니까?<br>
+                삭제한 아이디어는 다시 복구할 수 없습니다.
+            </p>
+
+            <div class="button-row">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">삭제</button>
+                </form>
+
+                <a href="{% url 'idea-detail' idea.pk %}" class="btn btn-cancel">취소</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
