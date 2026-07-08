@@ -102,7 +102,61 @@ def my_profile(request):
     })
 
 def user_search(request):
-    return render(request, 'posts/user_search.html')
+    ensure_demo_users()
+
+    query = request.GET.get("q", "").strip()
+    current_user = get_current_user(request)
+
+    user_profiles = []
+
+    profile_data = {
+        "pirogramming_official": {
+            "name": "피로그래밍",
+            "profile_img": "images/piro.png",
+        },
+        "pirouser1": {
+            "name": "pirouser 1",
+            "profile_img": "images/pirouser1.png",
+        },
+        "pirouser2": {
+            "name": "pirouser 2",
+            "profile_img": "images/pirouser2.png",
+        },
+        "pirouser3": {
+            "name": "pirouser 3",
+            "profile_img": "images/pirouser3.png",
+        },
+        "pirouser4": {
+            "name": "pirouser 4",
+            "profile_img": "images/pirouser4.png",
+        },
+    }
+
+    if query:
+        users = User.objects.filter(username__icontains=query).exclude(username="wltn1.2")
+
+        for user in users:
+            data = profile_data.get(user.username, {
+                "name": user.username,
+                "profile_img": "images/default-profile.png",
+            })
+
+            is_following = Follow.objects.filter(
+                follower=current_user,
+                following=user
+            ).exists()
+
+            user_profiles.append({
+                "username": user.username,
+                "name": data["name"],
+                "profile_img": data["profile_img"],
+                "is_following": is_following,
+            })
+
+    return render(request, "posts/user_search.html", {
+        "query": query,
+        "users": user_profiles,
+    })
 
 def post_search(request):
     return render(request, 'posts/post_search.html')
