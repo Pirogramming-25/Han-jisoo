@@ -29,19 +29,19 @@
                     <span>홈</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'post_search' %}" class="nav-item">
                     <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
                     <span>게시글 검색</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'user_search' %}" class="nav-item">
                     <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
                     <span>유저 검색</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'post_create' %}" class="nav-item">
                     <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
-                    <span>게시글 만들기</span>
+                    <span>게시물 만들기</span>
                 </a>
 
                 <a href="{% url 'my_profile' %}" class="nav-item">
@@ -107,9 +107,43 @@
                 </button>
             </section>
 
-            <!-- 게시물 그리드 : 일단 대충 -->
-            <section class="user-post-grid">
-                
+            <!-- 탭 내용 영역 -->
+            <section class="profile-tab-content">
+
+                <!-- 게시물 탭 내용 -->
+                <div class="tab-panel active" id="posts-panel">
+                    <div class="empty-profile-content">
+                        <div class="empty-icon-wrap">
+                            <img src="{% static 'icons/camera.svg' %}" alt="사진 공유 아이콘" class="empty-icon">
+                        </div>
+
+                        <h2 class="empty-title">사진 공유</h2>
+
+                        <p class="empty-description">
+                            사진을 공유하면 회원님의 프로필에 표시됩니다.
+                        </p>
+
+                        <a href="{% url 'post_create' %}" class="photo-share-btn">
+                            첫 사진 공유하기
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 저장됨 탭 내용 -->
+                <div class="tab-panel" id="saved-panel">
+                    <div class="empty-profile-content">
+                        <div class="empty-icon-wrap">
+                            <img src="{% static 'icons/bookmark.svg' %}" alt="저장됨 아이콘" class="empty-icon">
+                        </div>
+
+                        <h2 class="empty-title">저장된 게시물 없음</h2>
+
+                        <p class="empty-description">
+                            저장한 게시물이 여기에 표시됩니다.
+                        </p>
+                    </div>
+                </div>
+
             </section>
 
         </main>

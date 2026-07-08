@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirostagram - 유저 검색</title>
+
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user-search.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-layout">
+
+        <!-- 좌측 사이드바 -->
+        <aside class="sidebar">
+            <a href="{% url 'main' %}" class="logo">
+                <span>Pirostagram</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="{% url 'main' %}" class="nav-item">
+                    <img src="{% static 'icons/home.svg' %}" alt="홈 아이콘" class="nav-icon">
+                    <span>홈</span>
+                </a>
+
+                <a href="{% url 'post_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
+                    <span>게시글 검색</span>
+                </a>
+
+                <a href="{% url 'user_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
+                    <span>유저 검색</span>
+                </a>
+
+                <a href="{% url 'post_create' %}" class="nav-item">
+                    <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
+                    <span>게시물 만들기</span>
+                </a>
+
+                <a href="{% url 'my_profile' %}" class="nav-item">
+                    <img src="{% static 'icons/user-round.svg' %}" alt="프로필 아이콘" class="nav-icon">
+                    <span>프로필</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 유저 검색 영역 -->
+        <main class="user-search-area">
+
+            <section class="search-header">
+                <a href="{% url 'main' %}" class="back-btn">
+                    <img src="{% static 'icons/chevron-left.svg' %}" alt="뒤로가기" class="back-icon">
+                </a>
+
+                <div class="search-box">
+                    <img src="{% static 'icons/search.svg' %}" alt="검색 아이콘" class="search-icon">
+                    <input type="text" value="pirouser" class="search-input">
+                    <button type="button" class="clear-btn">
+                        <img src="{% static 'icons/circle-x.svg' %}" alt="검색어 지우기" class="clear-icon">
+                    </button>
+                </div>
+            </section>
+
+            <section class="user-result-list">
+
+                <div class="user-result-item">
+                    <a href="{% url 'user_feed' 'pirouser1' %}" class="user-result-link">
+                        <img src="{% static 'images/pirouser1.png' %}" alt="pirouser1 프로필" class="user-result-img">
+                        <span class="user-result-name">pirouser 1</span>
+                    </a>
+
+                    <div class="user-result-actions">
+                        <a href="{% url 'user_feed' 'pirouser1' %}" class="profile-btn">프로필</a>
+                        <button type="button" class="follow-btn">팔로우</button>
+                    </div>
+                </div>
+
+                <div class="user-result-item">
+                    <a href="{% url 'user_feed' 'pirouser2' %}" class="user-result-link">
+                        <img src="{% static 'images/pirouser2.png' %}" alt="pirouser2 프로필" class="user-result-img">
+                        <span class="user-result-name">pirouser 2</span>
+                    </a>
+
+                    <div class="user-result-actions">
+                        <a href="{% url 'user_feed' 'pirouser2' %}" class="profile-btn">프로필</a>
+                        <button type="button" class="follow-btn">팔로우</button>
+                    </div>
+                </div>
+
+                <div class="user-result-item">
+                    <a href="{% url 'user_feed' 'pirouser3' %}" class="user-result-link">
+                        <img src="{% static 'images/pirouser3.png' %}" alt="pirouser3 프로필" class="user-result-img">
+                        <span class="user-result-name">pirouser 3</span>
+                    </a>
+
+                    <div class="user-result-actions">
+                        <a href="{% url 'user_feed' 'pirouser3' %}" class="profile-btn">프로필</a>
+                        <button type="button" class="follow-btn">팔로우</button>
+                    </div>
+                </div>
+
+                <div class="user-result-item">
+                    <a href="{% url 'user_feed' 'pirouser4' %}" class="user-result-link">
+                        <img src="{% static 'images/pirouser4.png' %}" alt="pirouser4 프로필" class="user-result-img">
+                        <span class="user-result-name">pirouser 4</span>
+                    </a>
+
+                    <div class="user-result-actions">
+                        <a href="{% url 'user_feed' 'pirouser4' %}" class="profile-btn">프로필</a>
+                        <button type="button" class="follow-btn">팔로우</button>
+                    </div>
+                </div>
+
+                <div class="user-result-item">
+                    <a href="{% url 'user_feed' 'pirogramming_official' %}" class="user-result-link">
+                        <img src="{% static 'images/piro.png' %}" alt="피로그래밍 프로필" class="user-result-img">
+                        <span class="user-result-name">pirogramming_official</span>
+                    </a>
+
+                    <div class="user-result-actions">
+                        <a href="{% url 'user_feed' 'pirogramming_official' %}" class="profile-btn">프로필</a>
+                        <button type="button" class="following-btn">팔로잉</button>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+/* 전체 레이아웃 */
+.page-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #fff;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+        width: 275px;
+        flex-shrink: 0;
+        min-height: 1024vh;
+        padding: 30px 30px;
+
+        top: 0;
+        left: 0;
+
+        background-color: #ffffff;
+        border-right: 1px solid #dbdbdb;
+}
+
+.logo {
+    display: block;
+    margin-bottom: 48px;
+
+    font-size: 48px;
+    font-weight: 900;
+    color: #111;
+    font-family: "Dancing Script", cursive;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+
+    color: #111;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.nav-item:hover {
+    font-weight: 500;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.05);
+}
+
+/* 유저 검색 영역 */
+.user-search-area {
+    flex: 1;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #ffffff;
+}
+
+/* 검색 상단 */
+.search-header {
+    width: 620px;
+    height: 96px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-btn {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.search-box {
+    width: 520px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 14px;
+    border: 1px solid #dbdbdb;
+    border-radius: 24px;
+    background-color: #ffffff;
+}
+
+.search-icon,
+.clear-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.search-input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    font-size: 14px;
+    color: #111111;
+}
+
+.clear-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 유저 검색 결과 */
+.user-result-list {
+    width: 620px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    margin-top: 24px;
+}
+
+.user-result-item {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-result-link {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    color: #111111;
+    text-decoration: none;
+}
+
+.user-result-img {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-result-name {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.user-result-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-btn,
+.follow-btn,
+.following-btn {
+    min-width: 58px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.profile-btn {
+    border: 1px solid #dbdbdb;
+    color: #555555;
+    background-color: #ffffff;
+}
+
+.follow-btn {
+    color: #ffffff;
+    background-color: #0057ff;
+}
+
+.following-btn {
+    color: #111111;
+    background-color: #eeeeee;
+}

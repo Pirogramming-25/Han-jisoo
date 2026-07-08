@@ -188,7 +188,7 @@
 }
 
 
-/*게시물 / 저장됨 탭*/
+/*게시물 / 저장 탭*/
 
 .profile-tab-section {
     width: 100%;
@@ -288,4 +288,60 @@
     font-size: 18px;
     font-weight: 700;
     text-align: center;
+}
+
+.profile-tab-content {
+    width: 100%;
+    min-height: 300px;    
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-profile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.empty-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+}
+
+.empty-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.empty-title {
+    margin-bottom: 8px;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.empty-description {
+    margin-bottom: 8px;
+
+    font-size: 15px;
+    color: #111;
+}
+
+.photo-share-btn {
+    color: #0144FF;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.photo-share-btn:hover {
+    text-decoration: underline;
 }

@@ -29,19 +29,19 @@
                     <span>홈</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'post_search' %}" class="nav-item">
                     <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
                     <span>게시글 검색</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'user_search' %}" class="nav-item">
                     <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
                     <span>유저 검색</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'post_create' %}" class="nav-item">
                     <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
-                    <span>게시글 만들기</span>
+                    <span>게시물 만들기</span>
                 </a>
 
                 <a href="{% url 'my_profile' %}" class="nav-item">
@@ -80,7 +80,7 @@
                             <a href="#" class="profile-stat-item">팔로우<strong>{{ profile_user.following }}</strong></a>
                         </div>
 
-                        <a href="#" class="user-profile-bio-link">컴퓨터 회사</a>
+                        <a href="#" class="user-profile-bio-link">{{ profile_user.bio }}</a>
                     </div>
 
                     

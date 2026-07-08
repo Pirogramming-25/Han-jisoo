@@ -27,17 +27,17 @@
                 <span>홈</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{% url 'post_search' %}" class="nav-item">
                 <img src="{% static 'icons/search.svg' %}" alt="검색 아이콘" class="nav-icon">
                 <span>게시글 검색</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{% url 'user_search' %}" class="nav-item">
                 <img src="{% static 'icons/search.svg' %}" alt="검색 아이콘" class="nav-icon">
                 <span>유저 검색</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{% url 'post_create' %}" class="nav-item">
                 <img src="{% static 'icons/square-plus.svg' %}" alt="플러스 아이콘" class="nav-icon">
                 <span>게시물 만들기</span>
             </a>
@@ -208,7 +208,7 @@
                 </div>
         
                 <div class="recommend-item">
-                    <a href="#" class="recommend-user-link">
+                    <a href="{% url 'user_feed' 'pirouser2' %}" class="recommend-user-link">
                         <img src="{% static 'images/pirouser2.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
                         <span class="recommend-username">pirouser 2</span>
                     </a>
@@ -219,7 +219,7 @@
                 </div>
 
                 <div class="recommend-item">
-                    <a href="#" class="recommend-user-link">
+                    <a href="{% url 'user_feed' 'pirouser3' %}" class="recommend-user-link">
                         <img src="{% static 'images/pirouser3.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
                         <span class="recommend-username">pirouser 3</span>
                     </a>
@@ -230,7 +230,7 @@
                 </div>
 
                 <div class="recommend-item">
-                    <a href="#" class="recommend-user-link">
+                    <a href="{% url 'user_feed' 'pirouser4' %}" class="recommend-user-link">
                         <img src="{% static 'images/pirouser4.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
                         <span class="recommend-username">pirouser 4</span>
                     </a>

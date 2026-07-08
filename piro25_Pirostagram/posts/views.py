@@ -18,7 +18,7 @@ def user_feed(request, username):
             "username": "pirouser1",
             "name": "pirouser 1",
             "profile_img": "images/pirouser1.png",
-            "posts": 12,
+            "posts": 0,
             "followers": 120,
             "following": 80,
             "bio": "안녕하세요.",
@@ -27,7 +27,7 @@ def user_feed(request, username):
             "username": "pirouser2",
             "name": "pirouser 2",
             "profile_img": "images/pirouser2.png",
-            "posts": 8,
+            "posts": 0,
             "followers": 95,
             "following": 60,
             "bio": "소개글이 없습니다.",
@@ -36,19 +36,19 @@ def user_feed(request, username):
             "username": "pirouser3",
             "name": "pirouser 3",
             "profile_img": "images/pirouser3.png",
-            "posts": 5,
+            "posts": 0,
             "followers": 77,
             "following": 42,
-            "bio": "피로유저입니다.",
+            "bio": "나는 피로유저",
         },
         "pirouser4": {
             "username": "pirouser4",
             "name": "pirouser 4",
             "profile_img": "images/pirouser4.png",
-            "posts": 3,
+            "posts": 0,
             "followers": 50,
             "following": 33,
-            "bio": "반갑습니다.",
+            "bio": "아자아자 파이팅!",
         },
     }
 
@@ -58,3 +58,12 @@ def user_feed(request, username):
 
 def my_profile(request):
     return render(request, 'posts/my_profile.html')
+
+def user_search(request):
+    return render(request, 'posts/user_search.html')
+
+def post_search(request):
+    return render(request, 'posts/post_search.html')
+
+def post_create(request):
+    return render(request, 'posts/post_create.html')
