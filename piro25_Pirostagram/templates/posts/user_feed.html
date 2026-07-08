@@ -76,8 +76,12 @@
 
                         <div class="user-profile-stats">
                             <a href="#" class="profile-stat-item-posts">게시물<strong>{{ profile_user.posts }}</strong></a>
-                            <a href="#" class="profile-stat-item">팔로워<strong>{{ profile_user.followers }}</strong></a>
-                            <a href="#" class="profile-stat-item">팔로우<strong>{{ profile_user.following }}</strong></a>
+                            <a href="#" class="profile-stat-item">
+                                팔로워<strong id="followerCount">{{ follower_count }}</strong>
+                            </a>
+                            <a href="#" class="profile-stat-item">
+                                팔로우<strong>{{ following_count }}</strong>
+                            </a>
                         </div>
 
                         <a href="#" class="user-profile-bio-link">{{ profile_user.bio }}</a>
@@ -87,9 +91,17 @@
                 </div>
                 <!-- 버튼들도 페이지 이동 -->
                     <div class="profile-button-row">
-                        <a href="#" class="profile-following-btn">
-                            팔로잉
-                        </a>
+                        <button 
+                            type="button" 
+                            class="profile-following-btn follow-toggle-btn {% if is_following %}following{% else %}not-following{% endif %}"
+                            data-username="{{ profile_user.username }}"
+                        >
+                            {% if is_following %}
+                                팔로잉
+                            {% else %}
+                                팔로우
+                            {% endif %}
+                        </button>
 
                         <a href="{% url 'main' %}" class="profile-back-btn">
                             돌아가기
@@ -112,5 +124,6 @@
         </main>
 
     </div>
+    <script src="{% static 'js/follow.js' %}"></script>
 </body>
 </html>

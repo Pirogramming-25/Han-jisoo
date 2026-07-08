@@ -76,8 +76,13 @@
 
                         <div class="user-profile-stats">
                             <a href="#" class="profile-stat-item-posts">게시물<strong>0</strong></a>
-                            <a href="#" class="profile-stat-item">팔로워<strong>79</strong></a>
-                            <a href="#" class="profile-stat-item">팔로우<strong>85</strong></a>
+                            <a href="#" class="profile-stat-item">
+                                팔로워<strong>{{ follower_count }}</strong>
+                            </a>
+
+                            <a href="#" class="profile-stat-item">
+                                팔로우<strong>{{ following_count }}</strong>
+                            </a>
                         </div>
 
                         <a href="#" class="user-profile-bio-link">소개글이 없습니다.</a>
@@ -109,7 +114,6 @@
 
             <!-- 탭 내용 영역 -->
             <section class="profile-tab-content">
-
                 <!-- 게시물 탭 내용 -->
                 <div class="tab-panel active" id="posts-panel">
                     <div class="empty-profile-content">
