@@ -1,0 +1,119 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirostagram - 유저 피드</title>
+
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my-profile.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-layout">
+
+        <!-- 좌측 사이드바 -->
+        <aside class="sidebar">
+            <a href="{% url 'main' %}" class="logo">
+                <span>Pirostagram</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="{% url 'main' %}" class="nav-item">
+                    <img src="{% static 'icons/home.svg' %}" alt="홈 아이콘" class="nav-icon">
+                    <span>홈</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
+                    <span>게시글 검색</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
+                    <span>유저 검색</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
+                    <span>게시글 만들기</span>
+                </a>
+
+                <a href="{% url 'my_profile' %}" class="nav-item">
+                    <img src="{% static 'icons/user-round.svg' %}" alt="프로필 아이콘" class="nav-icon">
+                    <span>프로필</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 다른 유저 프로필 메인 영역 -->
+        <main class="user-profile-area">
+
+            <!-- 프로필 상단 정보 -->
+            <section class="user-profile-header">
+                <div class="profile-top">
+                    <!-- 프로필 사진 클릭 -->
+                    <a href="#" class="user-profile-img-link">
+                        <img src="{% static 'images/profile1.webp' %}" alt="유저 프로필 이미지" class="user-profile-img">
+                    </a>
+
+                    <div class="user-profile-info">
+
+                        <!-- 유저 아이디 클릭 -->
+                        <a href="#" class="user-profile-id-link">
+                            <h2 class="user-profile-id">wltn1.2</h2>
+                        </a>
+
+                        <!-- 이름/소개 클릭 -->
+                        <a href="#" class="user-profile-name-link">
+                            <p class="user-profile-name">한지수</p>
+                        </a>
+
+                        <div class="user-profile-stats">
+                            <a href="#" class="profile-stat-item-posts">게시물<strong>0</strong></a>
+                            <a href="#" class="profile-stat-item">팔로워<strong>79</strong></a>
+                            <a href="#" class="profile-stat-item">팔로우<strong>85</strong></a>
+                        </div>
+
+                        <a href="#" class="user-profile-bio-link">소개글이 없습니다.</a>
+                    </div>
+
+                    
+                </div>
+                <!-- 버튼들도 페이지 이동 -->
+                    <div class="profile-button-row">
+                        <a href="#" class="profile-following-btn">
+                            프로필 편집
+                        </a>
+
+                        <a href="{% url 'main' %}" class="profile-back-btn">
+                            돌아가기
+                        </a>
+                    </div>
+            </section>
+
+            <!-- 게시물 탭 -->
+            <section class="profile-tab-section">
+                <button type="button" class="profile-tab active" data-tab="posts">
+                    <img src="{% static 'icons/grip.svg' %}" alt="게시물 탭" class="profile-tab-icon">
+                </button>
+                <button type="button" class="profile-tab" data-tab="saved">
+                    <img src="{% static 'icons/bookmark.svg' %}" alt="저장 탭" class="profile-tab-icon">
+                </button>
+            </section>
+
+            <!-- 게시물 그리드 : 일단 대충 -->
+            <section class="user-post-grid">
+                
+            </section>
+
+        </main>
+
+    </div>
+</body>
+</html>

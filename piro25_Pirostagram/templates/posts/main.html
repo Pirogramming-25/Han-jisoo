@@ -1,0 +1,248 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirostagram</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-layout">
+
+    <!-- 좌측 사이드바 -->
+    <aside class="sidebar">
+        <a href="{% url 'main' %}" class="logo">
+            <span>Pirostagram</span>
+        </a>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">
+                <img src="{% static 'icons/home.svg' %}" alt="홈 아이콘" class="nav-icon">
+                <span>홈</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <img src="{% static 'icons/search.svg' %}" alt="검색 아이콘" class="nav-icon">
+                <span>게시글 검색</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <img src="{% static 'icons/search.svg' %}" alt="검색 아이콘" class="nav-icon">
+                <span>유저 검색</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <img src="{% static 'icons/square-plus.svg' %}" alt="플러스 아이콘" class="nav-icon">
+                <span>게시물 만들기</span>
+            </a>
+
+            <a href="{% url 'my_profile' %}" class="nav-item">
+                <img src="{% static 'icons/user-round.svg' %}" alt="프로필 아이콘" class="nav-icon">
+                <span>프로필</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- 중앙 영역 -->
+    <main class="main-area">
+
+        <!-- 상단 프로필/스토리 -->
+        <section class="story-section">
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/profile1.webp' %}" alt="내 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'my_profile' %}" class="story-name-link">
+                    <span class="story-name">내 스토리</span>
+                </a>
+            </div>
+
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/piro.png' %}" alt="피로그래밍 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'user_feed' 'pirogramming_official' %}" class="story-name-link">
+                    <span class="story-name">pirogramming</span>
+                </a>
+            </div>
+
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/pirouser1.png' %}" alt="피로유저1 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'user_feed' 'pirouser1' %}" class="story-name-link">
+                    <span class="story-name">pirouser 1</span>
+                </a>
+            </div>
+
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/pirouser2.png' %}" alt="피로유저2 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'user_feed' 'pirouser2' %}" class="story-name-link">
+                    <span class="story-name">pirouser 2</span>
+                </a>
+            </div>
+
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/pirouser3.png' %}" alt="피로유저3 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'user_feed' 'pirouser3' %}" class="story-name-link">
+                    <span class="story-name">pirouser 3</span>
+                </a>
+            </div>
+
+            <div class="story-item">
+                <a href="#" class="story-img-link">
+                    <div class="story-img-wrap">
+                        <img src="{% static 'images/pirouser4.png' %}" alt="피로유저4 스토리" class="story-img">
+                    </div>
+                </a>
+
+                <a href="{% url 'user_feed' 'pirouser4' %}" class="story-name-link">
+                    <span class="story-name">pirouser 4</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 중앙 게시물칸 -->
+        <section class="feed-section">
+            <article class="post-card">
+                <!-- 게시물 상단 영역 -->
+                <div class="post-header">
+                    <a href="{% url 'my_profile' %}" class="post-author-link">
+                        <img src="{% static 'images/profile1.webp' %}" alt="게시물 작성자 프로필" class="post-profile-img">
+                        <span class="post-username">wltn1.2</span>
+                    </a>
+                    
+                    <div class="post-menu-wrap">
+                        <button class="post-more-btn" type="button">
+                            <img src="{% static 'icons/three-dots.svg' %}" alt="게시물 메뉴 열기" class="post-more-icon">
+                        </button>
+
+                        <div class="post-dropdown">
+                            <button type="button" class="dropdown-item">이 계정 정보</button>
+                            <button type="button" class="dropdown-item">팔로우 취소</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 게시물 이미지 -->
+                <div class="post-image">
+                    <!-- 실제 이미지 넣고 싶으면 아래 img 주석 풀기 -->
+                    <!-- <img src="{% static 'images/post1.webp' %}" alt="게시물 이미지"> -->
+                </div>
+
+                <!-- 좋아요/댓글/공유/저장 -->
+                <div class="post-actions">
+                    <div class="left-actions">
+                        <button type="button" class="like-btn">
+                            <img src="{% static 'icons/heart.svg' %}" alt="좋아요" class="post-icon">
+                        </button>
+                        <span class="action-count">5</span>
+
+                        <button type="button" class="comment-btn">
+                            <img src="{% static 'icons/message-circle.svg' %}" alt="댓글" class="post-icon">
+                        </button>
+                        <span class="action-count">7</span>
+
+                        <button type="button" class="share-btn">
+                            <img src="{% static 'icons/send.svg' %}" alt="공유" class="post-icon">
+                        </button>
+                        <span class="action-count">2</span>
+                    </div>
+
+                    <button type="button" class="save-btn">
+                        <img src="{% static 'icons/bookmark.svg' %}" alt="저장" class="post-icon">
+                    </button>
+                </div>
+
+                <!-- 게시물 내용 -->
+                <div class="post-content">
+                    <p class="post-caption">
+                        <strong>wltn1.2</strong>
+                        이렇게 많이 밤샌 적 처음..
+                    </p>
+                </div>
+            </article>
+        </section>
+    
+    </main>
+
+    <!-- 우측 유저 추천 칸 -->
+    <aside class="recommend-section">
+        <h2 class="recommend-title">회원님을 위한 추천</h2>
+        
+        <div class="recommend-list">
+                <div class="recommend-item">
+                    <a href="{% url 'user_feed' 'pirouser1' %}" class="recommend-user-link">
+                        <img src="{% static 'images/pirouser1.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
+                        <span class="recommend-username">pirouser 1</span>
+                    </a>
+
+                    <button type="button" class="recommend-follow-btn">
+                        팔로우
+                    </button>
+                </div>
+        
+                <div class="recommend-item">
+                    <a href="#" class="recommend-user-link">
+                        <img src="{% static 'images/pirouser2.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
+                        <span class="recommend-username">pirouser 2</span>
+                    </a>
+
+                    <button type="button" class="recommend-follow-btn">
+                        팔로우
+                    </button>
+                </div>
+
+                <div class="recommend-item">
+                    <a href="#" class="recommend-user-link">
+                        <img src="{% static 'images/pirouser3.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
+                        <span class="recommend-username">pirouser 3</span>
+                    </a>
+
+                    <button type="button" class="recommend-follow-btn">
+                        팔로우
+                    </button>
+                </div>
+
+                <div class="recommend-item">
+                    <a href="#" class="recommend-user-link">
+                        <img src="{% static 'images/pirouser4.png' %}" alt="추천 유저 프로필" class="recommend-profile-img">
+                        <span class="recommend-username">pirouser 4</span>
+                    </a>
+
+                    <button type="button" class="recommend-follow-btn">
+                        팔로우
+                    </button>
+                </div>
+
+        </div>
+    </aside>
+
+    </div>
+</body>
+</html>
