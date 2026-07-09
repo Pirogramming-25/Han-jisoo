@@ -129,64 +129,86 @@
 
         <!-- 중앙 게시물칸 -->
         <section class="feed-section">
-            <article class="post-card">
-                <!-- 게시물 상단 영역 -->
-                <div class="post-header">
-                    <a href="{% url 'my_profile' %}" class="post-author-link">
-                        <img src="{% static 'images/profile1.webp' %}" alt="게시물 작성자 프로필" class="post-profile-img">
-                        <span class="post-username">wltn1.2</span>
-                    </a>
-                    
-                    <div class="post-menu-wrap">
-                        <button class="post-more-btn" type="button">
-                            <img src="{% static 'icons/three-dots.svg' %}" alt="게시물 메뉴 열기" class="post-more-icon">
-                        </button>
+            {% if posts %}
+                {% for post in posts %}
+                    <article class="post-card">
+                        <header class="post-header">
+                            <a href="{% url 'user_feed' post.author.username %}" class="post-user-link">
+                                <img 
+                                    src="{% static 'images/profile1.webp' %}" 
+                                    alt="{{ post.author.username }} 프로필" 
+                                    class="post-profile-img"
+                                >
+                                <span class="post-username">
+                                    {{ post.author.username }}
+                                </span>
+                            </a>
 
-                        <div class="post-dropdown">
-                            <button type="button" class="dropdown-item">이 계정 정보</button>
-                            <button type="button" class="dropdown-item">팔로우 취소</button>
+                            <div class="post-menu-wrap">
+                                <button type="button" class="post-more-btn">
+                                    <img 
+                                        src="{% static 'icons/three-dots.svg' %}" 
+                                        alt="더보기" 
+                                        class="post-more-icon"
+                                    >
+                                </button>
+
+                                <div class="post-dropdown">
+                                    <a href="{% url 'user_feed' post.author.username %}" class="dropdown-item">
+                                        이 계정 정보
+                                    </a>
+                                    <button type="button" class="dropdown-item">
+                                        팔로우
+                                    </button>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div class="post-img-wrap">
+                            <img 
+                                src="{{ post.image.url }}" 
+                                alt="게시글 이미지" 
+                                class="post-img"
+                            >
                         </div>
-                    </div>
-                </div>
 
-                <!-- 게시물 이미지 -->
-                <div class="post-image">
-                    <!-- 실제 이미지 넣고 싶으면 아래 img 주석 풀기 -->
-                    <!-- <img src="{% static 'images/post1.webp' %}" alt="게시물 이미지"> -->
-                </div>
+                        <div class="post-action-row">
+                            <div class="left-actions">
+                                <div class="action-group">
+                                    <button type="button" class="post-action-btn">
+                                        <img src="{% static 'icons/heart.svg' %}" alt="좋아요" class="post-action-icon">
+                                    </button>
+                                    <span class="action-count">0</span>
+                                </div>
 
-                <!-- 좋아요/댓글/공유/저장 -->
-                <div class="post-actions">
-                    <div class="left-actions">
-                        <button type="button" class="like-btn">
-                            <img src="{% static 'icons/heart.svg' %}" alt="좋아요" class="post-icon">
-                        </button>
-                        <span class="action-count">5</span>
+                                <div class="action-group">
+                                    <button type="button" class="post-action-btn">
+                                        <img src="{% static 'icons/message-circle.svg' %}" alt="댓글" class="post-action-icon">
+                                    </button>
+                                    <span class="action-count">0</span>
+                                </div>
 
-                        <button type="button" class="comment-btn">
-                            <img src="{% static 'icons/message-circle.svg' %}" alt="댓글" class="post-icon">
-                        </button>
-                        <span class="action-count">7</span>
+                                <button type="button" class="post-action-btn">
+                                    <img src="{% static 'icons/send.svg' %}" alt="공유" class="post-action-icon">
+                                </button>
+                            </div>
 
-                        <button type="button" class="share-btn">
-                            <img src="{% static 'icons/send.svg' %}" alt="공유" class="post-icon">
-                        </button>
-                        <span class="action-count">2</span>
-                    </div>
+                            <button type="button" class="post-action-btn">
+                                <img src="{% static 'icons/bookmark.svg' %}" alt="저장" class="post-action-icon">
+                            </button>
+                        </div>
 
-                    <button type="button" class="save-btn">
-                        <img src="{% static 'icons/bookmark.svg' %}" alt="저장" class="post-icon">
-                    </button>
-                </div>
-
-                <!-- 게시물 내용 -->
-                <div class="post-content">
-                    <p class="post-caption">
-                        <strong>wltn1.2</strong>
-                        이렇게 많이 밤샌 적 처음..
-                    </p>
-                </div>
-            </article>
+                        <div class="post-content">
+                            <p class="post-caption">
+                                <strong>{{ post.author.username }}</strong>
+                                {{ post.content }}
+                            </p>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p class="empty-feed-text">아직 게시물이 없습니다.</p>
+            {% endif %}
         </section>
     
     </main>

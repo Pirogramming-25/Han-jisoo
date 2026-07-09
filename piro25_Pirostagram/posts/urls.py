@@ -9,4 +9,6 @@ urlpatterns = [
     path('users/<str:username>/', views.user_feed, name='user_feed'),
     path('posts/search/', views.post_search, name='post_search'),
     path('posts/create/', views.post_create, name='post_create'),
+    path('posts/<int:post_id>/update/', views.update_post, name='update_post'),
+    path('posts/<int:post_id>/delete/', views.delete_post, name='delete_post'),
 ]

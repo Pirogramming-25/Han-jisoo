@@ -266,14 +266,17 @@
 }
 
 .user-post-item {
+    width: 100%;
     height: 260px;
 
-    background-color: #f3f3f3;
-    border-right: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
+    display: block;
 
-    color: #111111;
-    text-decoration: none;
+    padding: 0;
+    border: none;
+    background: none;
+
+    cursor: pointer;
+    overflow: hidden;
 }
 
 .user-post-placeholder {
@@ -352,4 +355,162 @@
 
     object-fit: cover;
     display: block;
+}
+
+.user-post-item:hover .user-post-img {
+    transform: scale(1.03);
+}
+
+.post-modal {
+    display: none !important;
+
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+}
+
+.post-modal.active {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.post-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.post-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: 900px;
+    height: 580px;
+
+    display: flex;
+
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.post-modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 2;
+
+    border: none;
+    background: none;
+
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.post-modal-image-area {
+    width: 580px;
+    height: 580px;
+
+    background-color: #000000;
+}
+
+.post-modal-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    display: block;
+}
+
+.post-modal-info-area {
+    width: 320px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 24px;
+}
+
+.post-modal-writer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.post-modal-writer-img {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-modal-writer-name {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.post-modal-caption-input {
+    flex: 1;
+
+    width: 100%;
+
+    border: none;
+    resize: none;
+    outline: none;
+
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.post-modal-caption-input[readonly] {
+    color: #111111;
+    background-color: transparent;
+    cursor: default;
+}
+
+.post-modal-caption-input:not([readonly]) {
+    padding: 10px;
+
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.post-modal-btn-row {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 16px;
+}
+
+.post-edit-btn,
+.post-delete-btn {
+    flex: 1;
+    height: 40px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.post-edit-btn {
+    border: none;
+    background-color: #0095f6;
+    color: #ffffff;
+}
+
+.post-delete-btn {
+    border: 1px solid #dbdbdb;
+    background-color: #ffffff;
+    color: #ed4956;
 }

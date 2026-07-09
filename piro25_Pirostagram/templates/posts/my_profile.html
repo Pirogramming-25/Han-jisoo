@@ -119,13 +119,19 @@
                     {% if posts %}
                         <section class="user-post-grid">
                             {% for post in posts %}
-                                <a href="#" class="user-post-item">
+                                <button 
+                                    type="button" 
+                                    class="user-post-item post-modal-open-btn"
+                                    data-post-id="{{ post.id }}"
+                                    data-post-image="{{ post.image.url }}"
+                                    data-post-content="{{ post.content }}"
+                                >
                                     <img 
                                         src="{{ post.image.url }}" 
                                         alt="게시글 이미지" 
                                         class="user-post-img"
                                     >
-                                </a>
+                                </button>
                             {% endfor %}
                         </section>
                     {% else %}
@@ -164,5 +170,53 @@
         </main>
 
     </div>
+    <!-- 게시글 상세 팝업 -->
+    <div class="post-modal" id="postModal">
+        <div class="post-modal-overlay" id="postModalOverlay"></div>
+
+        <div class="post-modal-content">
+            <button type="button" class="post-modal-close-btn" id="postModalCloseBtn">
+                ×
+            </button>
+
+            <div class="post-modal-image-area">
+                <img 
+                    src="" 
+                    alt="게시글 상세 이미지" 
+                    class="post-modal-img" 
+                    id="postModalImg"
+                >
+            </div>
+
+            <div class="post-modal-info-area">
+                <div class="post-modal-writer">
+                    <img 
+                        src="{% static 'images/profile1.webp' %}" 
+                        alt="내 프로필" 
+                        class="post-modal-writer-img"
+                    >
+                    <span class="post-modal-writer-name">wltn1.2</span>
+                </div>
+
+                <textarea 
+                    class="post-modal-caption-input" 
+                    id="postModalCaptionInput"
+                    readonly
+                ></textarea>
+
+                <div class="post-modal-btn-row">
+                    <button type="button" class="post-edit-btn" id="postEditBtn">
+                        수정
+                    </button>
+
+                    <button type="button" class="post-delete-btn" id="postDeleteBtn">
+                        삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/post-modal.js' %}"></script>
 </body>
 </html>

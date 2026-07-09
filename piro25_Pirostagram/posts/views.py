@@ -7,11 +7,26 @@ from django.views.decorators.http import require_POST
 from .models import Follow, Post
 
 def main(request):
-    return render(request, 'posts/main.html')
+    ensure_demo_users()
+
+    posts = Post.objects.all().order_by("-created_at")
+
+    return render(request, "posts/main.html", {
+        "posts": posts,
+    })
 
 def user_feed(request, username):
     ensure_demo_users()
     users = {
+        "wltn1.2": {
+            "username": "wltn1.2",
+            "name": "한지수",
+            "profile_img": "images/profile1.webp",
+            "posts": 0,
+            "followers": 79,
+            "following": 85,
+            "bio": "소개글이 없습니다.",
+        },
         "pirogramming_official": {
             "username": "pirogramming_official",
             "name": "피로그래밍",
@@ -251,4 +266,31 @@ def toggle_follow(request, username):
         "success": True,
         "is_following": is_following,
         "follower_count": follower_count,
+    })
+
+@require_POST
+def update_post(request, post_id):
+    current_user = get_current_user(request)
+
+    post = get_object_or_404(Post, id=post_id, author=current_user)
+
+    content = request.POST.get("content", "")
+    post.content = content
+    post.save()
+
+    return JsonResponse({
+        "success": True,
+        "content": post.content,
+    })
+
+
+@require_POST
+def delete_post(request, post_id):
+    current_user = get_current_user(request)
+
+    post = get_object_or_404(Post, id=post_id, author=current_user)
+    post.delete()
+
+    return JsonResponse({
+        "success": True,
     })
