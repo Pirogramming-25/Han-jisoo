@@ -4,15 +4,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-from .models import Follow, Post
+from .models import Follow, Post, Like
 
 def main(request):
     ensure_demo_users()
 
+    current_user = get_current_user(request)
     posts = Post.objects.all().order_by("-created_at")
+
+    liked_post_ids = Like.objects.filter(
+        user=current_user
+    ).values_list("post_id", flat=True)
 
     return render(request, "posts/main.html", {
         "posts": posts,
+        "liked_post_ids": liked_post_ids,
     })
 
 def user_feed(request, username):
@@ -293,4 +299,28 @@ def delete_post(request, post_id):
 
     return JsonResponse({
         "success": True,
+    })
+
+@require_POST
+def toggle_like(request, post_id):
+    current_user = get_current_user(request)
+    post = get_object_or_404(Post, id=post_id)
+
+    like, created = Like.objects.get_or_create(
+        user=current_user,
+        post=post
+    )
+
+    if created:
+        is_liked = True
+    else:
+        like.delete()
+        is_liked = False
+
+    like_count = post.likes.count()
+
+    return JsonResponse({
+        "success": True,
+        "is_liked": is_liked,
+        "like_count": like_count,
     })

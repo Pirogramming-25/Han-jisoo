@@ -175,10 +175,23 @@
                         <div class="post-action-row">
                             <div class="left-actions">
                                 <div class="action-group">
-                                    <button type="button" class="post-action-btn">
-                                        <img src="{% static 'icons/heart.svg' %}" alt="좋아요" class="post-action-icon">
+                                    <button 
+                                        type="button" 
+                                        class="post-action-btn like-toggle-btn {% if post.id in liked_post_ids %}liked{% endif %}"
+                                        data-post-id="{{ post.id }}"
+                                    >
+                                        <img 
+                                            src="{% if post.id in liked_post_ids %}{% static 'icons/red-heart.svg' %}{% else %}{% static 'icons/heart.svg' %}{% endif %}" 
+                                            data-empty-src="{% static 'icons/heart.svg' %}"
+                                            data-filled-src="{% static 'icons/red-heart.svg' %}"
+                                            alt="좋아요" 
+                                            class="post-action-icon"
+                                        >
                                     </button>
-                                    <span class="action-count">0</span>
+
+                                    <span class="action-count like-count">
+                                        {{ post.likes.count }}
+                                    </span>
                                 </div>
 
                                 <div class="action-group">
@@ -266,5 +279,6 @@
     </aside>
 
     </div>
+    <script src="{% static 'js/like.js' %}"></script>
 </body>
 </html>
