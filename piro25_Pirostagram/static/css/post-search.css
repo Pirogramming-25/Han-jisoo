@@ -1,0 +1,222 @@
+/* 전체 레이아웃 */
+.page-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+    width: 275px;
+    flex-shrink: 0;
+    min-height: 100vh;
+    padding: 30px 30px;
+
+    background-color: #ffffff;
+    border-right: 1px solid #dbdbdb;
+}
+
+.logo {
+    display: block;
+    margin-bottom: 48px;
+
+    font-size: 48px;
+    font-weight: 900;
+    color: #111111;
+    font-family: "Dancing Script", cursive;
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+
+    color: #111111;
+    font-size: 24px;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    font-weight: 500;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* 게시글 검색 영역 */
+.post-search-area {
+    flex: 1;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #ffffff;
+}
+
+/* 검색창 */
+.search-header {
+    width: 680px;
+    height: 96px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-btn {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.search-box {
+    width: 560px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 14px;
+    border: 1px solid #dbdbdb;
+    border-radius: 24px;
+    background-color: #ffffff;
+}
+
+.search-icon,
+.clear-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.search-input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    font-size: 14px;
+    color: #111111;
+}
+
+.clear-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 게시글 검색 결과 */
+.post-result-grid {
+    width: 900px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+
+    margin-top: 24px;
+}
+
+.post-result-card {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
+    overflow: hidden;
+
+    background-color: #ffffff;
+}
+
+.post-result-card:hover {
+    background-color: #fafafa;
+}
+
+.post-thumbnail {
+    display: block;
+    color: #111111;
+    text-decoration: none;
+}
+
+.post-result-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(#ffc79f, #f5f5f5);
+    border-bottom: 1px solid #eeeeee;
+
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.post-result-info {
+    padding: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.post-result-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #111111;
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.post-author-img {
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-result-caption {
+    font-size: 13px;
+    color: #333333;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-result-meta {
+    display: flex;
+    gap: 10px;
+
+    font-size: 12px;
+    color: #777777;
+}

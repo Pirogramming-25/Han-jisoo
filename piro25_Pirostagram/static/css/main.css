@@ -1,0 +1,390 @@
+/* 전체 레이아웃 */
+.page-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #fff;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+        width: 275px;
+        flex-shrink: 0;
+        min-height: 1024vh;
+        padding: 30px 30px;
+
+        top: 0;
+        left: 0;
+
+        background-color: #ffffff;
+        border-right: 1px solid #dbdbdb;
+}
+
+.logo {
+    display: block;
+    margin-bottom: 48px;
+
+    font-size: 48px;
+    font-weight: 900;
+    color: #111;
+    font-family: "Dancing Script", cursive;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+
+    color: #111;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.nav-item:hover {
+    font-weight: 500;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.05);
+}
+
+.main-area {
+    width: 714px;
+    flex-shrink: 0;
+    background-color: #fff;
+}
+
+.story-section {
+    width: 714px;
+    height: 140px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+
+    padding: 0;
+    border-bottom: 1px solid #dbdbdb;
+    background-color: #fff;
+
+    overflow-x: auto;
+}
+
+.story-item {
+    width: 64px;
+    height: 84px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    flex-shrink: 0;/*??????????????????*/
+}
+
+.story-img-wrap {
+    width: 64px;
+    height: 64px;
+
+    border-radius: 50%;
+    padding: 2.5px;
+
+    background: conic-gradient(
+        from 190deg,
+        #e5dc67 0deg,
+        #f58c1c 70deg,
+        #E6562F 150deg,
+        #C807D9 200deg,
+        #C807D9 280deg,
+        #E6562F 300deg,
+        #E5DC67 360deg        
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-img {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+
+    border: 2px solid white;
+}
+
+.story-name {
+    width: 64px;
+
+    font-size: 12px;
+    text-align: center;
+    color: #555;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.feed-section {
+    width: 714px;
+    height: 884px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 24px;
+    background-color: #fff;
+}
+
+.post-card {
+    width: 480px;
+    background: #fff;
+}
+
+.post-header {
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-profile-img {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-username {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.post-author-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: inherit;
+    text-decoration: none;
+}
+
+.post-menu-wrap {
+    position: relative;
+    margin-left: auto;
+}
+
+.post-more-btn {
+    width: 20px;
+    height: 20px;
+
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-more-icon {
+    width: 24px;
+    height: 24px;
+    display: block:
+}
+
+.post-dropdown {
+    display: none;
+
+    position: absolute;
+    top: 28px;
+    right: 0;
+
+    width: 170px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    z-index: 100;
+}
+
+.post-menu-wrap:hover .post-dropdown {
+    display: block;
+}
+
+.dropdown-item,
+.post-dropdown button {
+    width: 100%;
+    height: 44px;
+    padding: 0 16px;
+
+    border: none;
+    background-color: #ffffff;
+
+    text-align: left;
+    font-size: 13px;
+    color: #111111;
+    cursor: pointer;
+}
+
+.dropdown-item:hover,
+.post-dropdown button:hover {
+    background-color: #f2f2f2;
+}
+
+.post-image {
+    width: 100%;
+    height: 582px;
+    background-color: #eeeeee;
+    overflow: hidden;
+}
+
+.post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-actions {
+    width: 100%;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0;
+    padding-top: 20px;
+}
+
+.left-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+}
+
+.like-btn,
+.comment-btn,
+.share-btn,
+.save-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    
+}
+
+.post-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.action-count {
+    margin-right: 10px;
+
+    font-size: 14px;
+    color: #111111;
+}
+
+/* 게시물 본문 */
+.post-content {
+    width: 100%;
+    padding-top: 20px;
+}
+
+.post-caption {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #111111;
+}
+
+.post-caption strong {
+    margin-right: 6px;
+    font-weight: 700;
+}
+
+/* 우측 유저 추천 칸 */
+.recommend-section {
+    width: 320px;
+    min-height: 100vh;
+    padding-top: 60px;
+    padding-left: 27px;
+    padding-right: 27px;
+    background-color: #ffffff;
+
+    border-left: 1px solid #dbdbdb;
+
+}
+
+.recommend-title {
+    margin-bottom: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+}
+
+.recommend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recommend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recommend-user-link {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+
+    color: #111111;
+}
+
+.recommend-profile-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.recommend-username {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111111;
+}
+
+.recommend-follow-btn {
+    color: #0144FF;
+    font-size: 15px;
+    font-weight: 700;
+}

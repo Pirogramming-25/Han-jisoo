@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirostagram - 게시글 만들기</title>
+
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post-create.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-layout">
+
+        <!-- 좌측 사이드바 -->
+        <aside class="sidebar">
+            <a href="{% url 'main' %}" class="logo">
+                <span>Pirostagram</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="{% url 'main' %}" class="nav-item">
+                    <img src="{% static 'icons/home.svg' %}" alt="홈 아이콘" class="nav-icon">
+                    <span>홈</span>
+                </a>
+
+                <a href="{% url 'post_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
+                    <span>게시글 검색</span>
+                </a>
+
+                <a href="{% url 'user_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
+                    <span>유저 검색</span>
+                </a>
+
+                <a href="{% url 'post_create' %}" class="nav-item">
+                    <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
+                    <span>게시물 만들기</span>
+                </a>
+
+                <a href="{% url 'my_profile' %}" class="nav-item">
+                    <img src="{% static 'icons/user-round.svg' %}" alt="프로필 아이콘" class="nav-icon">
+                    <span>프로필</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 게시글 만들기 영역 -->
+        <main class="post-create-area">
+
+            <section class="create-card">
+                <header class="create-header">
+                    <a href="{% url 'my_profile' %}" class="back-btn">
+                        <img src="{% static 'icons/chevron-left.svg' %}" alt="뒤로가기" class="back-icon">
+                    </a>
+
+                    <h2 class="create-title">새 게시물 만들기</h2>
+
+                    <button type="button" class="submit-btn">공유하기</button>
+                </header>
+
+                <div class="create-body">
+
+                    <!-- 이미지 업로드 영역 -->
+                    <div class="image-upload-box">
+                        <img src="{% static 'icons/image.svg' %}" alt="이미지 업로드" class="upload-icon">
+                        <p class="upload-text">사진을 선택하세요</p>
+
+                        <label for="post-image" class="upload-btn">
+                            파일 선택
+                        </label>
+                        <input type="file" id="post-image" class="file-input">
+                    </div>
+
+                    <!-- 게시글 작성 영역 -->
+                    <div class="caption-box">
+                        <div class="writer-info">
+                            <img src="{% static 'images/profile1.webp' %}" alt="내 프로필" class="writer-img">
+                            <span class="writer-name">wltn1.2</span>
+                        </div>
+
+                        <textarea 
+                            class="caption-input" 
+                            placeholder="문구를 입력하세요..."
+                        ></textarea>
+
+                        
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+</body>
+</html>

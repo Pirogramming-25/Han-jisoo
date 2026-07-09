@@ -1,0 +1,133 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirostagram - 유저 검색</title>
+
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user-search.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-layout">
+
+        <!-- 좌측 사이드바 -->
+        <aside class="sidebar">
+            <a href="{% url 'main' %}" class="logo">
+                <span>Pirostagram</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="{% url 'main' %}" class="nav-item">
+                    <img src="{% static 'icons/home.svg' %}" alt="홈 아이콘" class="nav-icon">
+                    <span>홈</span>
+                </a>
+
+                <a href="{% url 'post_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="게시글 검색 아이콘" class="nav-icon">
+                    <span>게시글 검색</span>
+                </a>
+
+                <a href="{% url 'user_search' %}" class="nav-item">
+                    <img src="{% static 'icons/search.svg' %}" alt="유저 검색 아이콘" class="nav-icon">
+                    <span>유저 검색</span>
+                </a>
+
+                <a href="{% url 'post_create' %}" class="nav-item">
+                    <img src="{% static 'icons/square-plus.svg' %}" alt="게시글 만들기 아이콘" class="nav-icon">
+                    <span>게시물 만들기</span>
+                </a>
+
+                <a href="{% url 'my_profile' %}" class="nav-item">
+                    <img src="{% static 'icons/user-round.svg' %}" alt="프로필 아이콘" class="nav-icon">
+                    <span>프로필</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 유저 검색 영역 -->
+        <main class="user-search-area">
+
+            <section class="search-header">
+                <a href="{% url 'main' %}" class="back-btn">
+                    <img 
+                        src="{% static 'icons/chevron-left.svg' %}" 
+                        alt="뒤로가기" 
+                        class="back-icon"
+                    >
+                </a>
+
+                <form method="get" action="{% url 'user_search' %}" class="search-box">
+                    <img 
+                        src="{% static 'icons/search.svg' %}" 
+                        alt="검색 아이콘" 
+                        class="search-icon"
+                    >
+
+                    <input 
+                        type="text" 
+                        name="q"
+                        value="{{ query }}"
+                        placeholder="검색"
+                        class="search-input"
+                    >
+
+                    <button type="button" class="clear-btn">
+                        <img 
+                            src="{% static 'icons/circle-x.svg' %}" 
+                            alt="검색어 지우기" 
+                            class="clear-icon"
+                        >
+                    </button>
+                </form>
+            </section>
+
+            <section class="user-result-list">
+                {% if users %}
+                    {% for user in users %}
+                        <div class="user-result-item">
+                            <a href="{% url 'user_feed' user.username %}" class="user-result-link">
+                                <img 
+                                    src="{% static user.profile_img %}" 
+                                    alt="{{ user.username }} 프로필" 
+                                    class="user-result-img"
+                                >
+                                <span class="user-result-name">{{ user.username }}</span>
+                            </a>
+
+                            <div class="user-result-actions">
+                                <a href="{% url 'user_feed' user.username %}" class="profile-btn">
+                                    프로필
+                                </a>
+
+                                <button 
+                                    type="button" 
+                                    class="follow-btn follow-toggle-btn {% if user.is_following %}following{% else %}not-following{% endif %}"
+                                    data-username="{{ user.username }}"
+                                >
+                                    {% if user.is_following %}
+                                        팔로잉
+                                    {% else %}
+                                        팔로우
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-result-text">검색 결과가 없습니다.</p>
+                {% endif %}
+            </section>
+
+        </main>
+
+    </div>
+    <script src="{% static 'js/follow.js' %}"></script>
+</body>
+</html>
