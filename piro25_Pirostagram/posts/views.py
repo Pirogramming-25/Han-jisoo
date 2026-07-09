@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-from .models import Follow
+from .models import Follow, Post
 
 def main(request):
     return render(request, 'posts/main.html')
@@ -77,11 +77,14 @@ def user_feed(request, username):
     follower_count = base_followers + db_follower_count
     following_count = base_following + db_following_count
 
+    posts = Post.objects.filter(author=target_user).order_by("-created_at")
+
     return render(request, 'posts/user_feed.html', {
         'profile_user': profile_user,
         'is_following': is_following,
         'follower_count': follower_count,
         'following_count': following_count,
+        'posts': posts,
     })
 
     user = users.get(username)
@@ -96,9 +99,12 @@ def my_profile(request):
     following_count = 85 + Follow.objects.filter(follower=current_user).count()
     follower_count = 79 + Follow.objects.filter(following=current_user).count()
 
+    posts = Post.objects.filter(author=current_user).order_by("-created_at")
+
     return render(request, 'posts/my_profile.html', {
         'following_count': following_count,
         'follower_count': follower_count,
+        'posts': posts,
     })
 
 def user_search(request):
@@ -162,7 +168,28 @@ def post_search(request):
     return render(request, 'posts/post_search.html')
 
 def post_create(request):
-    return render(request, 'posts/post_create.html')
+    print("post_create view 들어옴:", request.method)
+
+    ensure_demo_users()
+    current_user = get_current_user(request)
+
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        content = request.POST.get("content", "")
+
+        print("image:", image)
+        print("content:", content)
+
+        if image:
+            Post.objects.create(
+                author=current_user,
+                image=image,
+                content=content
+            )
+
+            return redirect("my_profile")
+
+    return render(request, "posts/post_create.html")
 
 def get_current_user(request):
     if request.user.is_authenticated:

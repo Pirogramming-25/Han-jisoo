@@ -116,9 +116,21 @@
                 </a>
             </section>
 
-            <!-- 게시물 그리드 : 일단 대충 -->
+            <!-- 게시물 그리드 -->
             <section class="user-post-grid">
-                
+                {% if posts %}
+                    {% for post in posts %}
+                        <a href="#" class="user-post-item">
+                            <img 
+                                src="{{ post.image.url }}" 
+                                alt="게시글 이미지" 
+                                class="user-post-img"
+                            >
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty-text">아직 게시물이 없습니다.</p>
+                {% endif %}
             </section>
 
         </main>

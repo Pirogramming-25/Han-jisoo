@@ -116,21 +116,32 @@
             <section class="profile-tab-content">
                 <!-- 게시물 탭 내용 -->
                 <div class="tab-panel active" id="posts-panel">
-                    <div class="empty-profile-content">
-                        <div class="empty-icon-wrap">
-                            <img src="{% static 'icons/camera.svg' %}" alt="사진 공유 아이콘" class="empty-icon">
+                    {% if posts %}
+                        <section class="user-post-grid">
+                            {% for post in posts %}
+                                <a href="#" class="user-post-item">
+                                    <img 
+                                        src="{{ post.image.url }}" 
+                                        alt="게시글 이미지" 
+                                        class="user-post-img"
+                                    >
+                                </a>
+                            {% endfor %}
+                        </section>
+                    {% else %}
+                        <div class="empty-profile-content">
+                            <div class="empty-icon-wrap">
+                                <img src="{% static 'icons/image.svg' %}" alt="사진 공유 아이콘" class="empty-icon">
+                            </div>
+
+                            <h2 class="empty-title">사진 공유</h2>
+                            <p class="empty-description">사진을 공유하면 회원님의 프로필에 표시됩니다.</p>
+
+                            <a href="{% url 'post_create' %}" class="photo-share-btn">
+                                첫 사진 공유하기
+                            </a>
                         </div>
-
-                        <h2 class="empty-title">사진 공유</h2>
-
-                        <p class="empty-description">
-                            사진을 공유하면 회원님의 프로필에 표시됩니다.
-                        </p>
-
-                        <a href="{% url 'post_create' %}" class="photo-share-btn">
-                            첫 사진 공유하기
-                        </a>
-                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- 저장됨 탭 내용 -->
