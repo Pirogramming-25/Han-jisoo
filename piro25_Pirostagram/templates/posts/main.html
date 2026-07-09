@@ -181,9 +181,9 @@
                                         data-post-id="{{ post.id }}"
                                     >
                                         <img 
-                                            src="{% if post.id in liked_post_ids %}{% static 'icons/red-heart.svg' %}{% else %}{% static 'icons/heart.svg' %}{% endif %}" 
+                                            src="{% if post.id in liked_post_ids %}{% static 'icons/filled-heart.svg' %}{% else %}{% static 'icons/heart.svg' %}{% endif %}" 
                                             data-empty-src="{% static 'icons/heart.svg' %}"
-                                            data-filled-src="{% static 'icons/red-heart.svg' %}"
+                                            data-filled-src="{% static 'icons/filled-heart.svg' %}"
                                             alt="좋아요" 
                                             class="post-action-icon"
                                         >
@@ -195,10 +195,24 @@
                                 </div>
 
                                 <div class="action-group">
-                                    <button type="button" class="post-action-btn">
-                                        <img src="{% static 'icons/message-circle.svg' %}" alt="댓글" class="post-action-icon">
+                                    <button 
+                                        type="button" 
+                                        class="post-action-btn comment-open-btn"
+                                        data-post-id="{{ post.id }}"
+                                        data-post-image="{{ post.image.url }}"
+                                        data-post-author="{{ post.author.username }}"
+                                        data-post-content="{{ post.content }}"
+                                    >
+                                        <img 
+                                            src="{% static 'icons/message-circle.svg' %}" 
+                                            alt="댓글" 
+                                            class="post-action-icon"
+                                        >
                                     </button>
-                                    <span class="action-count">0</span>
+
+                                    <span class="action-count comment-count">
+                                        {{ post.comments.count }}
+                                    </span>
                                 </div>
 
                                 <button type="button" class="post-action-btn">
@@ -279,6 +293,46 @@
     </aside>
 
     </div>
+    <!-- 댓글 팝업 -->
+    <div class="comment-modal" id="commentModal">
+        <div class="comment-modal-overlay" id="commentModalOverlay"></div>
+
+        <div class="comment-modal-content">
+            <button type="button" class="comment-modal-close-btn" id="commentModalCloseBtn">
+                ×
+            </button>
+
+            <div class="comment-modal-image-area">
+                <img src="" alt="게시글 이미지" class="comment-modal-img" id="commentModalImg">
+            </div>
+
+            <div class="comment-modal-info-area">
+                <div class="comment-post-header">
+                    <strong class="comment-post-author" id="commentPostAuthor"></strong>
+                    <p class="comment-post-content" id="commentPostContent"></p>
+                </div>
+
+                <div class="comment-list" id="commentList">
+                    <!-- JS로 댓글 들어옴 -->
+                </div>
+
+                <form class="comment-form" id="commentForm">
+                    <input 
+                        type="text" 
+                        class="comment-input" 
+                        id="commentInput"
+                        placeholder="댓글 달기..."
+                    >
+
+                    <button type="submit" class="comment-submit-btn">
+                        게시
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/comment.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-from .models import Follow, Post, Like
+from .models import Follow, Post, Like, Comment
 
 def main(request):
     ensure_demo_users()
@@ -323,4 +323,98 @@ def toggle_like(request, post_id):
         "success": True,
         "is_liked": is_liked,
         "like_count": like_count,
+    })
+
+def get_comments(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    comments = Comment.objects.filter(post=post).order_by("created_at")
+
+    comment_list = []
+
+    for comment in comments:
+        comment_list.append({
+            "id": comment.id,
+            "username": comment.user.username,
+            "content": comment.content,
+            "is_owner": comment.user == get_current_user(request),
+        })
+
+    return JsonResponse({
+        "success": True,
+        "comments": comment_list,
+        "comment_count": comments.count(),
+    })
+
+
+@require_POST
+def create_comment(request, post_id):
+    current_user = get_current_user(request)
+    post = get_object_or_404(Post, id=post_id)
+
+    content = request.POST.get("content", "").strip()
+
+    if not content:
+        return JsonResponse({
+            "success": False,
+            "message": "댓글 내용을 입력해주세요."
+        }, status=400)
+
+    comment = Comment.objects.create(
+        user=current_user,
+        post=post,
+        content=content
+    )
+
+    comment_count = post.comments.count()
+
+    return JsonResponse({
+        "success": True,
+        "comment": {
+            "id": comment.id,
+            "username": comment.user.username,
+            "content": comment.content,
+            "is_owner": True,
+        },
+        "comment_count": comment_count,
+    })
+
+
+@require_POST
+def update_comment(request, comment_id):
+    current_user = get_current_user(request)
+
+    comment = get_object_or_404(Comment, id=comment_id, user=current_user)
+
+    content = request.POST.get("content", "").strip()
+
+    if not content:
+        return JsonResponse({
+            "success": False,
+            "message": "댓글 내용을 입력해주세요."
+        }, status=400)
+
+    comment.content = content
+    comment.save()
+
+    return JsonResponse({
+        "success": True,
+        "content": comment.content,
+    })
+
+
+@require_POST
+def delete_comment(request, comment_id):
+    current_user = get_current_user(request)
+
+    comment = get_object_or_404(Comment, id=comment_id, user=current_user)
+    post = comment.post
+
+    comment.delete()
+
+    comment_count = post.comments.count()
+
+    return JsonResponse({
+        "success": True,
+        "comment_count": comment_count,
     })
