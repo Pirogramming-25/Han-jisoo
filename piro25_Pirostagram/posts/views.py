@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-from .models import Follow, Post, Like, Comment
+from .models import Follow, Post, Like, Comment, Story
 
 def main(request):
     ensure_demo_users()
@@ -16,9 +16,19 @@ def main(request):
         user=current_user
     ).values_list("post_id", flat=True)
 
+    story_users = User.objects.filter(
+        stories__isnull=False
+    ).exclude(
+        username=current_user.username
+    ).distinct()
+
+    my_story_count = Story.objects.filter(user=current_user).count()
+
     return render(request, "posts/main.html", {
         "posts": posts,
         "liked_post_ids": liked_post_ids,
+        "story_users": story_users,
+        "my_story_count": my_story_count,
     })
 
 def user_feed(request, username):
@@ -100,6 +110,14 @@ def user_feed(request, username):
 
     posts = Post.objects.filter(author=target_user).order_by("-created_at")
 
+    story_users = [
+        users["pirogramming_official"],
+        users["pirouser1"],
+        users["pirouser2"],
+        users["pirouser3"],
+        users["pirouser4"],
+    ]
+
     return render(request, 'posts/user_feed.html', {
         'profile_user': profile_user,
         'is_following': is_following,
@@ -117,15 +135,17 @@ def my_profile(request):
 
     current_user = get_current_user(request)
 
+    posts = Post.objects.filter(author=current_user).order_by("-created_at")
+
+    post_count = posts.count()
     following_count = 85 + Follow.objects.filter(follower=current_user).count()
     follower_count = 79 + Follow.objects.filter(following=current_user).count()
 
-    posts = Post.objects.filter(author=current_user).order_by("-created_at")
-
     return render(request, 'posts/my_profile.html', {
+        'posts': posts,
+        'post_count': post_count,
         'following_count': following_count,
         'follower_count': follower_count,
-        'posts': posts,
     })
 
 def user_search(request):
@@ -417,4 +437,60 @@ def delete_comment(request, comment_id):
     return JsonResponse({
         "success": True,
         "comment_count": comment_count,
+    })
+
+def get_user_stories(request, username):
+    user = get_object_or_404(User, username=username)
+
+    stories = Story.objects.filter(user=user).order_by("created_at")
+
+    story_list = []
+
+    for story in stories:
+        story_list.append({
+            "id": story.id,
+            "image_url": story.image.url,
+            "created_at": story.created_at.strftime("%Y-%m-%d %H:%M"),
+        })
+
+    return JsonResponse({
+        "success": True,
+        "username": user.username,
+        "stories": story_list,
+    })
+
+
+@require_POST
+def create_story(request):
+    ensure_demo_users()
+
+    current_user = get_current_user(request)
+    image = request.FILES.get("image")
+
+    if not image:
+        return JsonResponse({
+            "success": False,
+            "message": "이미지를 선택해주세요."
+        }, status=400)
+
+    story = Story.objects.create(
+        user=current_user,
+        image=image
+    )
+
+    return JsonResponse({
+        "success": True,
+        "story": {
+            "id": story.id,
+            "image_url": story.image.url,
+        }
+    })
+
+def story_detail(request, user_id):
+    story_user = get_object_or_404(User, id=user_id)
+    stories = Story.objects.filter(user=story_user).order_by("-created_at")
+
+    return render(request, "posts/story_detail.html", {
+        "story_user": story_user,
+        "stories": stories,
     })

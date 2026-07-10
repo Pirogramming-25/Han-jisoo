@@ -54,77 +54,65 @@
 
         <!-- 상단 프로필/스토리 -->
         <section class="story-section">
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/profile1.webp' %}" alt="내 스토리" class="story-img">
-                    </div>
-                </a>
 
+            <!-- 내 스토리 -->
+            <div class="story-item my-story-item">
+
+                <!-- 프로필 사진 클릭: 내 스토리 보기 -->
+                <button 
+                    type="button" 
+                    class="story-open-btn my-story-profile-btn"
+                    data-username="wltn1.2"
+                >
+                    <div class="story-img-wrap my-story-wrap">
+                        <img 
+                            src="{% static 'images/profile1.webp' %}" 
+                            alt="내 스토리" 
+                            class="story-img"
+                        >
+                    </div>
+                </button>
+
+                <!-- + 버튼 클릭: 스토리 업로드 -->
+                <button type="button" class="story-upload-open-btn">
+                    +
+                </button>
+
+                <!-- 글자 클릭: 내 프로필 이동 -->
                 <a href="{% url 'my_profile' %}" class="story-name-link">
                     <span class="story-name">내 스토리</span>
                 </a>
             </div>
 
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/piro.png' %}" alt="피로그래밍 스토리" class="story-img">
-                    </div>
-                </a>
+            <!-- 다른 유저 스토리 -->
+            {% for user in story_users %}
+                <div class="story-item">
+                    <button 
+                        type="button" 
+                        class="story-open-btn"
+                        data-username="{{ user.username }}"
+                    >
+                        <div class="story-img-wrap">
+                            {% if user.username == "pirouser1" %}
+                                <img src="{% static 'images/pirouser1.png' %}" alt="{{ user.username }}" class="story-img">
+                            {% elif user.username == "pirouser2" %}
+                                <img src="{% static 'images/pirouser2.png' %}" alt="{{ user.username }}" class="story-img">
+                            {% elif user.username == "pirouser3" %}
+                                <img src="{% static 'images/pirouser3.png' %}" alt="{{ user.username }}" class="story-img">
+                            {% elif user.username == "pirouser4" %}
+                                <img src="{% static 'images/pirouser4.png' %}" alt="{{ user.username }}" class="story-img">
+                            {% elif user.username == "pirogramming_official" %}
+                                <img src="{% static 'images/piro.png' %}" alt="{{ user.username }}" class="story-img">
+                            {% else %}
+                                <img src="{% static 'images/profile1.webp' %}" alt="{{ user.username }}" class="story-img">
+                            {% endif %}
+                        </div>
+                    </button>
 
-                <a href="{% url 'user_feed' 'pirogramming_official' %}" class="story-name-link">
-                    <span class="story-name">pirogramming</span>
-                </a>
-            </div>
+                    <span class="story-name">{{ user.username }}</span>
+                </div>
+            {% endfor %}
 
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/pirouser1.png' %}" alt="피로유저1 스토리" class="story-img">
-                    </div>
-                </a>
-
-                <a href="{% url 'user_feed' 'pirouser1' %}" class="story-name-link">
-                    <span class="story-name">pirouser 1</span>
-                </a>
-            </div>
-
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/pirouser2.png' %}" alt="피로유저2 스토리" class="story-img">
-                    </div>
-                </a>
-
-                <a href="{% url 'user_feed' 'pirouser2' %}" class="story-name-link">
-                    <span class="story-name">pirouser 2</span>
-                </a>
-            </div>
-
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/pirouser3.png' %}" alt="피로유저3 스토리" class="story-img">
-                    </div>
-                </a>
-
-                <a href="{% url 'user_feed' 'pirouser3' %}" class="story-name-link">
-                    <span class="story-name">pirouser 3</span>
-                </a>
-            </div>
-
-            <div class="story-item">
-                <a href="#" class="story-img-link">
-                    <div class="story-img-wrap">
-                        <img src="{% static 'images/pirouser4.png' %}" alt="피로유저4 스토리" class="story-img">
-                    </div>
-                </a>
-
-                <a href="{% url 'user_feed' 'pirouser4' %}" class="story-name-link">
-                    <span class="story-name">pirouser 4</span>
-                </a>
-            </div>
         </section>
 
         <!-- 중앙 게시물칸 -->
@@ -133,16 +121,20 @@
                 {% for post in posts %}
                     <article class="post-card">
                         <header class="post-header">
-                            <a href="{% url 'user_feed' post.author.username %}" class="post-user-link">
-                                <img 
-                                    src="{% static 'images/profile1.webp' %}" 
-                                    alt="{{ post.author.username }} 프로필" 
-                                    class="post-profile-img"
-                                >
-                                <span class="post-username">
-                                    {{ post.author.username }}
-                                </span>
-                            </a>
+                            {% if post.author.username == "wltn1.2" %}
+                                <a href="{% url 'my_profile' %}" class="post-user-link">
+                            {% else %}
+                                <a href="{% url 'user_feed' post.author.username %}" class="post-user-link">
+                            {% endif %}
+                                    <img 
+                                        src="{% static 'images/profile1.webp' %}" 
+                                        alt="{{ post.author.username }} 프로필" 
+                                        class="post-profile-img"
+                                    >
+                                    <span class="post-username">
+                                        {{ post.author.username }}
+                                    </span>
+                                </a>
 
                             <div class="post-menu-wrap">
                                 <button type="button" class="post-more-btn">
@@ -154,9 +146,16 @@
                                 </button>
 
                                 <div class="post-dropdown">
-                                    <a href="{% url 'user_feed' post.author.username %}" class="dropdown-item">
-                                        이 계정 정보
-                                    </a>
+                                    {% if post.author.username == "wltn1.2" %}
+                                        <a href="{% url 'my_profile' %}" class="dropdown-item">
+                                            이 계정 정보
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'user_feed' post.author.username %}" class="dropdown-item">
+                                            이 계정 정보
+                                        </a>
+                                    {% endif %}
+
                                     <button type="button" class="dropdown-item">
                                         팔로우
                                     </button>
@@ -332,7 +331,84 @@
         </div>
     </div>
 
+    <!-- 스토리 보기 팝업 -->
+    <div class="story-modal" id="storyModal">
+        <div class="story-modal-overlay" id="storyModalOverlay"></div>
+
+        <div class="story-modal-content">
+            <button type="button" class="story-modal-close-btn" id="storyModalCloseBtn">
+                ×
+            </button>
+
+            <div class="story-modal-header">
+                <span id="storyModalUsername"></span>
+            </div>
+
+            <button type="button" class="story-nav-btn story-prev-btn" id="storyPrevBtn">
+                ‹
+            </button>
+
+            <img 
+                src="" 
+                alt="스토리 이미지" 
+                class="story-modal-img" 
+                id="storyModalImg"
+            >
+
+            <button type="button" class="story-nav-btn story-next-btn" id="storyNextBtn">
+                ›
+            </button>
+        </div>
+    </div>
+
+    <!-- 스토리 업로드 팝업 -->
+    <div class="story-upload-modal" id="storyUploadModal">
+        <div class="story-upload-overlay" id="storyUploadOverlay"></div>
+
+        <form class="story-upload-content" id="storyUploadForm">
+            <button type="button" class="story-upload-close-btn" id="storyUploadCloseBtn">
+                ×
+            </button>
+
+            <h2 class="story-upload-title">스토리 만들기</h2>
+
+            <label for="storyImageInput" class="story-upload-box">
+                <img 
+                    src="{% static 'icons/image.svg' %}" 
+                    alt="스토리 이미지" 
+                    class="story-upload-icon"
+                    id="storyUploadIcon"
+                >
+
+                <img 
+                    src="" 
+                    alt="스토리 미리보기" 
+                    class="story-preview-img"
+                    id="storyPreviewImg"
+                >
+
+                <span class="story-upload-text" id="storyUploadText">
+                    스토리에 올릴 이미지를 선택하세요
+                </span>
+            </label>
+
+            <input 
+                type="file" 
+                id="storyImageInput" 
+                name="image"
+                accept="image/*"
+                class="story-file-input"
+                required
+            >
+
+            <button type="submit" class="story-submit-btn">
+                스토리 업로드
+            </button>
+        </form>
+    </div>
+
     <script src="{% static 'js/comment.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
+    <script src="{% static 'js/story.js' %}"></script>
 </body>
 </html>

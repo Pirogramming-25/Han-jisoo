@@ -69,3 +69,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: {self.content[:20]}'
+    
+class Story(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="stories")
+    image = models.ImageField(upload_to="stories/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}의 스토리"
