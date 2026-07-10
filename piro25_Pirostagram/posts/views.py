@@ -22,13 +22,42 @@ def main(request):
         username=current_user.username
     ).distinct()
 
-    my_story_count = Story.objects.filter(user=current_user).count()
+    recommended_users = [
+        {
+            "username": "pirouser1",
+            "name": "pirouser 1",
+            "profile_img": "images/pirouser1.png",
+        },
+        {
+            "username": "pirouser2",
+            "name": "pirouser 2",
+            "profile_img": "images/pirouser2.png",
+        },
+        {
+            "username": "pirouser3",
+            "name": "pirouser 3",
+            "profile_img": "images/pirouser3.png",
+        },
+        {
+            "username": "pirouser4",
+            "name": "pirouser 4",
+            "profile_img": "images/pirouser4.png",
+        },
+    ]
+
+    for user in recommended_users:
+        target_user = User.objects.get(username=user["username"])
+
+        user["is_following"] = Follow.objects.filter(
+            follower=current_user,
+            following=target_user
+        ).exists()
 
     return render(request, "posts/main.html", {
         "posts": posts,
         "liked_post_ids": liked_post_ids,
         "story_users": story_users,
-        "my_story_count": my_story_count,
+        "recommended_users": recommended_users,
     })
 
 def user_feed(request, username):
@@ -39,16 +68,16 @@ def user_feed(request, username):
             "name": "한지수",
             "profile_img": "images/profile1.webp",
             "posts": 0,
-            "followers": 79,
-            "following": 85,
+            "followers": 0,
+            "following": 0,
             "bio": "소개글이 없습니다.",
         },
         "pirogramming_official": {
             "username": "pirogramming_official",
             "name": "피로그래밍",
             "profile_img": "images/piro.png",
-            "posts": 4,
-            "followers": "1,387",
+            "posts": 0,
+            "followers": "0",
             "following": 0,
             "bio": "컴퓨터 회사",
         },
@@ -57,8 +86,8 @@ def user_feed(request, username):
             "name": "pirouser 1",
             "profile_img": "images/pirouser1.png",
             "posts": 0,
-            "followers": 120,
-            "following": 80,
+            "followers": 0,
+            "following": 0,
             "bio": "안녕하세요.",
         },
         "pirouser2": {
@@ -66,8 +95,8 @@ def user_feed(request, username):
             "name": "pirouser 2",
             "profile_img": "images/pirouser2.png",
             "posts": 0,
-            "followers": 95,
-            "following": 60,
+            "followers": 0,
+            "following": 0,
             "bio": "소개글이 없습니다.",
         },
         "pirouser3": {
@@ -75,8 +104,8 @@ def user_feed(request, username):
             "name": "pirouser 3",
             "profile_img": "images/pirouser3.png",
             "posts": 0,
-            "followers": 77,
-            "following": 42,
+            "followers": 0,
+            "following": 0,
             "bio": "나는 피로유저",
         },
         "pirouser4": {
@@ -84,8 +113,8 @@ def user_feed(request, username):
             "name": "pirouser 4",
             "profile_img": "images/pirouser4.png",
             "posts": 0,
-            "followers": 50,
-            "following": 33,
+            "followers": 0,
+            "following": 0,
             "bio": "아자아자 파이팅!",
         },
     }
@@ -138,14 +167,20 @@ def my_profile(request):
     posts = Post.objects.filter(author=current_user).order_by("-created_at")
 
     post_count = posts.count()
-    following_count = 85 + Follow.objects.filter(follower=current_user).count()
-    follower_count = 79 + Follow.objects.filter(following=current_user).count()
 
-    return render(request, 'posts/my_profile.html', {
-        'posts': posts,
-        'post_count': post_count,
-        'following_count': following_count,
-        'follower_count': follower_count,
+    follower_count = Follow.objects.filter(
+        following=current_user
+    ).count()
+
+    following_count = Follow.objects.filter(
+        follower=current_user
+    ).count()
+
+    return render(request, "posts/my_profile.html", {
+        "posts": posts,
+        "post_count": post_count,
+        "follower_count": follower_count,
+        "following_count": following_count,
     })
 
 def user_search(request):
@@ -157,6 +192,10 @@ def user_search(request):
     user_profiles = []
 
     profile_data = {
+        "wltn1.2": {
+            "name": "한지수",
+            "profile_img": "images/profile1.webp",
+        },
         "pirogramming_official": {
             "name": "피로그래밍",
             "profile_img": "images/piro.png",
@@ -180,12 +219,12 @@ def user_search(request):
     }
 
     if query:
-        users = User.objects.filter(username__icontains=query).exclude(username="wltn1.2")
+        users = User.objects.filter(username__icontains=query)
 
         for user in users:
             data = profile_data.get(user.username, {
                 "name": user.username,
-                "profile_img": "images/default-profile.png",
+                "profile_img": "images/profile1.webp",
             })
 
             is_following = Follow.objects.filter(
@@ -198,6 +237,7 @@ def user_search(request):
                 "name": data["name"],
                 "profile_img": data["profile_img"],
                 "is_following": is_following,
+                "is_me": user.username == current_user.username,
             })
 
     return render(request, "posts/user_search.html", {

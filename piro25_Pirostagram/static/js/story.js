@@ -99,24 +99,26 @@ storyModalCloseBtn.addEventListener("click", closeStoryModal);
 스토리 업로드
 ========================= */
 
-const storyUploadOpenBtn = document.querySelector(".story-upload-open-btn");
+const storyUploadOpenBtn = document.querySelector("#storyUploadOpenBtn");
 const storyUploadModal = document.querySelector("#storyUploadModal");
 const storyUploadOverlay = document.querySelector("#storyUploadOverlay");
 const storyUploadCloseBtn = document.querySelector("#storyUploadCloseBtn");
 const storyUploadForm = document.querySelector("#storyUploadForm");
 const storyImageInput = document.querySelector("#storyImageInput");
-const storyUploadBox = document.querySelector(".story-upload-box");
-
+const storyUploadBox = document.querySelector("#storyUploadBox");
 const storyUploadIcon = document.querySelector("#storyUploadIcon");
 const storyPreviewImg = document.querySelector("#storyPreviewImg");
 const storyUploadText = document.querySelector("#storyUploadText");
 
-storyUploadBox.addEventListener("click", () => {
-    storyImageInput.click();
+storyUploadOpenBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    storyUploadModal.classList.add("active");
 });
 
-storyUploadOpenBtn.addEventListener("click", () => {
-    storyUploadModal.classList.add("active");
+storyUploadBox.addEventListener("click", () => {
+    storyImageInput.click();
 });
 
 function closeStoryUploadModal() {

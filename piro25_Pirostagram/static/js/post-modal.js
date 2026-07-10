@@ -122,7 +122,17 @@ postDeleteBtn.addEventListener("click", () => {
                 return;
             }
 
-            currentPostButton.remove();
+            if (currentPostButton) {
+                currentPostButton.remove();
+            }
+
+            const postCount = document.querySelector("#postCount");
+
+            if (postCount) {
+                const currentCount = Number(postCount.textContent);
+                postCount.textContent = Math.max(currentCount - 1, 0);
+            }
+
             closePostModal();
         });
 });
