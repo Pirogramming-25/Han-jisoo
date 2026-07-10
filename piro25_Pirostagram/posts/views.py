@@ -248,7 +248,19 @@ def user_search(request):
     })
 
 def post_search(request):
-    return render(request, 'posts/post_search.html')
+    query = request.GET.get("q", "").strip()
+
+    posts = []
+
+    if query:
+        posts = Post.objects.filter(
+            content__icontains=query
+        ).order_by("-created_at")
+
+    return render(request, "posts/post_search.html", {
+        "query": query,
+        "posts": posts,
+    })
 
 def post_create(request):
     print("post_create view 들어옴:", request.method)
