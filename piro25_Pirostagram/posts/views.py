@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-from .models import Follow, Post, Like, Comment, Story
+from .models import Follow, Post, Like, Comment, Story, Profile
 
 def main(request):
     ensure_demo_users()
@@ -163,24 +163,26 @@ def my_profile(request):
     ensure_demo_users()
 
     current_user = get_current_user(request)
+    profile = get_user_profile(current_user)
 
     posts = Post.objects.filter(author=current_user).order_by("-created_at")
 
     post_count = posts.count()
+    follower_count = Follow.objects.filter(following=current_user).count()
+    following_count = Follow.objects.filter(follower=current_user).count()
 
-    follower_count = Follow.objects.filter(
-        following=current_user
-    ).count()
+    profile_image_url = "/static/images/profile1.webp"
 
-    following_count = Follow.objects.filter(
-        follower=current_user
-    ).count()
+    if profile.image:
+        profile_image_url = profile.image.url
 
     return render(request, "posts/my_profile.html", {
         "posts": posts,
         "post_count": post_count,
         "follower_count": follower_count,
         "following_count": following_count,
+        "profile": profile,
+        "profile_image_url": profile_image_url,
     })
 
 def user_search(request):
@@ -279,6 +281,9 @@ def get_current_user(request):
     user, created = User.objects.get_or_create(username="wltn1.2")
     return user
 
+def get_user_profile(user):
+    profile, created = Profile.objects.get_or_create(user=user)
+    return profile
 
 def ensure_demo_users():
     usernames = [
@@ -533,4 +538,32 @@ def story_detail(request, user_id):
     return render(request, "posts/story_detail.html", {
         "story_user": story_user,
         "stories": stories,
+    })
+
+@require_POST
+def update_profile(request):
+    current_user = get_current_user(request)
+    profile = get_user_profile(current_user)
+
+    bio = request.POST.get("bio", "")
+    image = request.FILES.get("image")
+
+    print("업로드 이미지:", image)
+
+    profile.bio = bio
+
+    if image:
+        profile.image = image
+
+    profile.save()
+
+    profile_image_url = "/static/images/profile1.webp"
+
+    if profile.image:
+        profile_image_url = profile.image.url
+
+    return JsonResponse({
+        "success": True,
+        "bio": profile.bio,
+        "profile_image_url": profile_image_url,
     })
