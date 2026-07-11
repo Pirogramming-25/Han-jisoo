@@ -89,39 +89,53 @@
             </section>
 
             <section class="user-result-list">
-                {% if users %}
-                    {% for user in users %}
-                        <div class="user-result-item">
-                            <a href="{% url 'user_feed' user.username %}" class="user-result-link">
-                                <img 
-                                    src="{% static user.profile_img %}" 
-                                    alt="{{ user.username }} 프로필" 
-                                    class="user-result-img"
-                                >
-                                <span class="user-result-name">{{ user.username }}</span>
-                            </a>
+                {% if query %}
+                    {% if users %}
+                        {% for user in users %}
+                            <div class="user-result-item">
 
-                            <div class="user-result-actions">
-                                <a href="{% url 'user_feed' user.username %}" class="profile-btn">
-                                    프로필
-                                </a>
+                                {% if user.is_me %}
+                                    <a href="{% url 'my_profile' %}" class="user-result-link">
+                                {% else %}
+                                    <a href="{% url 'user_feed' user.username %}" class="user-result-link">
+                                {% endif %}
+                                        <img 
+                                            src="{% static user.profile_img %}" 
+                                            alt="{{ user.username }} 프로필" 
+                                            class="user-result-img"
+                                        >
+                                        <span class="user-result-name">{{ user.username }}</span>
+                                    </a>
 
-                                <button 
-                                    type="button" 
-                                    class="follow-btn follow-toggle-btn {% if user.is_following %}following{% else %}not-following{% endif %}"
-                                    data-username="{{ user.username }}"
-                                >
-                                    {% if user.is_following %}
-                                        팔로잉
+                                <div class="user-result-actions">
+                                    {% if user.is_me %}
+                                        <a href="{% url 'my_profile' %}" class="profile-btn">
+                                            프로필
+                                        </a>
                                     {% else %}
-                                        팔로우
+                                        <a href="{% url 'user_feed' user.username %}" class="profile-btn">
+                                            프로필
+                                        </a>
+
+                                        <button 
+                                            type="button" 
+                                            class="follow-btn follow-toggle-btn {% if user.is_following %}following{% else %}not-following{% endif %}"
+                                            data-username="{{ user.username }}"
+                                        >
+                                            {% if user.is_following %}
+                                                팔로잉
+                                            {% else %}
+                                                팔로우
+                                            {% endif %}
+                                        </button>
                                     {% endif %}
-                                </button>
+                                </div>
+
                             </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="no-result-text">검색 결과가 없습니다.</p>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-result-text">검색 결과가 없습니다.</p>
+                    {% endif %}
                 {% endif %}
             </section>
 

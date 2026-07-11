@@ -54,50 +54,88 @@
         <!-- 게시글 만들기 영역 -->
         <main class="post-create-area">
 
-            <section class="create-card">
+            <form 
+                method="post" 
+                action="{% url 'post_create' %}" 
+                enctype="multipart/form-data" 
+                class="create-card"
+            >
+                {% csrf_token %}
+
                 <header class="create-header">
                     <a href="{% url 'my_profile' %}" class="back-btn">
-                        <img src="{% static 'icons/chevron-left.svg' %}" alt="뒤로가기" class="back-icon">
+                        <img 
+                            src="{% static 'icons/chevron-left.svg' %}" 
+                            alt="뒤로가기" 
+                            class="back-icon"
+                        >
                     </a>
 
                     <h2 class="create-title">새 게시물 만들기</h2>
 
-                    <button type="button" class="submit-btn">공유하기</button>
+                    <button type="submit" class="submit-btn">
+                        공유하기
+                    </button>
                 </header>
 
                 <div class="create-body">
 
                     <!-- 이미지 업로드 영역 -->
                     <div class="image-upload-box">
-                        <img src="{% static 'icons/image.svg' %}" alt="이미지 업로드" class="upload-icon">
-                        <p class="upload-text">사진을 선택하세요</p>
+                        <img 
+                            src="{% static 'icons/image.svg' %}" 
+                            alt="이미지 업로드" 
+                            class="upload-icon"
+                            id="uploadIcon"
+                        >
+
+                        <img 
+                            src="" 
+                            alt="미리보기 이미지" 
+                            class="preview-img"
+                            id="previewImg"
+                        >
+
+                        <p class="upload-text" id="uploadText">사진을 선택하세요</p>
 
                         <label for="post-image" class="upload-btn">
                             파일 선택
                         </label>
-                        <input type="file" id="post-image" class="file-input">
+
+                        <input 
+                            type="file" 
+                            id="post-image" 
+                            name="image"
+                            accept="image/*"
+                            class="file-input"
+                            required
+                        >
                     </div>
 
                     <!-- 게시글 작성 영역 -->
                     <div class="caption-box">
                         <div class="writer-info">
-                            <img src="{% static 'images/profile1.webp' %}" alt="내 프로필" class="writer-img">
+                            <img 
+                                src="{% static 'images/profile1.webp' %}" 
+                                alt="내 프로필" 
+                                class="writer-img"
+                            >
                             <span class="writer-name">wltn1.2</span>
                         </div>
 
                         <textarea 
+                            name="content"
                             class="caption-input" 
                             placeholder="문구를 입력하세요..."
                         ></textarea>
-
-                        
                     </div>
 
                 </div>
-            </section>
+            </form>
 
         </main>
 
     </div>
+    <script src="{% static 'js/post-create.js' %}"></script>
 </body>
 </html>

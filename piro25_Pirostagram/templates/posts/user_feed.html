@@ -59,23 +59,29 @@
                 <div class="profile-top">
                     <!-- 프로필 사진 클릭 -->
                     <a href="#" class="user-profile-img-link">
-                        <img src="{% static profile_user.profile_img %}" alt="유저 프로필 이미지" class="user-profile-img">
+                        <img 
+                            src="{% static profile_user.profile_img %}" 
+                            alt="{{ profile_user.username }} 프로필" 
+                            class="user-profile-img"
+                        >
                     </a>
 
                     <div class="user-profile-info">
 
                         <!-- 유저 아이디 클릭 -->
-                        <a href="#" class="user-profile-id-link">
+                        <a href="{% url 'user_feed' profile_user.username %}" class="user-profile-id-link">
                             <h2 class="user-profile-id">{{ profile_user.username }}</h2>
                         </a>
 
                         <!-- 이름/소개 클릭 -->
-                        <a href="#" class="user-profile-name-link">
+                        <a href="{% url 'user_feed' profile_user.username %}" class="user-profile-name-link">
                             <p class="user-profile-name">{{ profile_user.name }}</p>
                         </a>
 
                         <div class="user-profile-stats">
-                            <a href="#" class="profile-stat-item-posts">게시물<strong>{{ profile_user.posts }}</strong></a>
+                            <a href="#" class="profile-stat-item-posts">
+                                게시물<strong>{{ profile_user.posts }}</strong>
+                            </a>
                             <a href="#" class="profile-stat-item">
                                 팔로워<strong id="followerCount">{{ follower_count }}</strong>
                             </a>
@@ -84,29 +90,57 @@
                             </a>
                         </div>
 
-                        <a href="#" class="user-profile-bio-link">{{ profile_user.bio }}</a>
-                    </div>
-
-                    
-                </div>
-                <!-- 버튼들도 페이지 이동 -->
-                    <div class="profile-button-row">
-                        <button 
-                            type="button" 
-                            class="profile-following-btn follow-toggle-btn {% if is_following %}following{% else %}not-following{% endif %}"
-                            data-username="{{ profile_user.username }}"
-                        >
-                            {% if is_following %}
-                                팔로잉
-                            {% else %}
-                                팔로우
-                            {% endif %}
-                        </button>
-
-                        <a href="{% url 'main' %}" class="profile-back-btn">
-                            돌아가기
+                        <a href="{% url 'user_feed' profile_user.username %}" class="user-profile-bio-link">
+                            {{ profile_user.bio }}
                         </a>
                     </div>
+                </div>
+
+                <!-- 버튼들 -->
+                <div class="profile-button-row">
+                    <button 
+                        type="button" 
+                        class="profile-following-btn follow-toggle-btn {% if is_following %}following{% else %}not-following{% endif %}"
+                        data-username="{{ profile_user.username }}"
+                    >
+                        {% if is_following %}
+                            팔로잉
+                        {% else %}
+                            팔로우
+                        {% endif %}
+                    </button>
+
+                    <a href="{% url 'main' %}" class="profile-back-btn">
+                        돌아가기
+                    </a>
+                </div>
+            </section>
+
+            <!-- 스토리 영역 -->
+            <section class="profile-story-section">
+                <div class="profile-story-list">
+                    {% for story_user in story_users %}
+                        <div class="profile-story-item">
+
+                            <!-- 프로필 사진 누르면 스토리 보기 -->
+                            <a href="{% url 'story_detail' story_user.username %}" class="profile-story-img-link">
+                                <div class="profile-story-img-wrap {% if story_user.has_story %}has-story{% endif %}">
+                                    <img 
+                                        src="{% static story_user.profile_img %}" 
+                                        alt="{{ story_user.username }} 프로필 이미지" 
+                                        class="profile-story-img"
+                                    >
+                                </div>
+                            </a>
+
+                            <!-- 아이디 누르면 해당 유저 프로필로 이동 -->
+                            <a href="{% url 'user_feed' story_user.username %}" class="profile-story-username">
+                                {{ story_user.username }}
+                            </a>
+
+                        </div>
+                    {% endfor %}
+                </div>
             </section>
 
             <!-- 게시물 탭 -->
@@ -116,14 +150,27 @@
                 </a>
             </section>
 
-            <!-- 게시물 그리드 : 일단 대충 -->
+            <!-- 게시물 그리드 -->
             <section class="user-post-grid">
-                
+                {% if posts %}
+                    {% for post in posts %}
+                        <a href="#" class="user-post-item">
+                            <img 
+                                src="{{ post.image.url }}" 
+                                alt="게시글 이미지" 
+                                class="user-post-img"
+                            >
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty-text">아직 게시물이 없습니다.</p>
+                {% endif %}
             </section>
 
         </main>
 
     </div>
+
     <script src="{% static 'js/follow.js' %}"></script>
 </body>
 </html>

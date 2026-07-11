@@ -2,21 +2,22 @@
 .page-layout {
     display: flex;
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 /* 좌측 사이드바 */
 .sidebar {
-        width: 275px;
-        flex-shrink: 0;
-        min-height: 1024vh;
-        padding: 30px 30px;
+    width: 275px;
+    flex-shrink: 0;
+    min-height: 100vh;
+    padding: 30px 30px;
 
-        top: 0;
-        left: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
 
-        background-color: #ffffff;
-        border-right: 1px solid #dbdbdb;
+    background-color: #ffffff;
+    border-right: 1px solid #dbdbdb;
 }
 
 .logo {
@@ -25,8 +26,9 @@
 
     font-size: 48px;
     font-weight: 900;
-    color: #111;
+    color: #111111;
     font-family: "Dancing Script", cursive;
+    text-decoration: none;
 }
 
 .nav-menu {
@@ -40,9 +42,10 @@
     align-items: center;
     gap: 48px;
 
-    color: #111;
+    color: #111111;
     font-size: 24px;
     font-weight: 300;
+    text-decoration: none;
 }
 
 .nav-item:hover {
@@ -59,24 +62,27 @@
     transform: scale(1.05);
 }
 
+/* 가운데 메인 영역 */
 .main-area {
     width: 714px;
     flex-shrink: 0;
-    background-color: #fff;
+
+    background-color: #ffffff;
 }
 
+/* 스토리 영역 */
 .story-section {
     width: 714px;
-    height: 140px;
+    min-height: 140px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 25px;
 
-    padding: 0;
+    padding: 0 20px;
     border-bottom: 1px solid #dbdbdb;
-    background-color: #fff;
+    background-color: #ffffff;
 
     overflow-x: auto;
 }
@@ -90,7 +96,13 @@
     align-items: center;
     gap: 5px;
 
-    flex-shrink: 0;/*??????????????????*/
+    flex-shrink: 0;
+}
+
+.story-img-link,
+.story-name-link {
+    color: inherit;
+    text-decoration: none;
 }
 
 .story-img-wrap {
@@ -104,11 +116,11 @@
         from 190deg,
         #e5dc67 0deg,
         #f58c1c 70deg,
-        #E6562F 150deg,
-        #C807D9 200deg,
-        #C807D9 280deg,
-        #E6562F 300deg,
-        #E5DC67 360deg        
+        #e6562f 150deg,
+        #c807d9 200deg,
+        #c807d9 280deg,
+        #e6562f 300deg,
+        #e5dc67 360deg
     );
 
     display: flex;
@@ -124,7 +136,7 @@
     object-fit: cover;
     display: block;
 
-    border: 2px solid white;
+    border: 2px solid #ffffff;
 }
 
 .story-name {
@@ -132,36 +144,59 @@
 
     font-size: 12px;
     text-align: center;
-    color: #555;
+    color: #555555;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+/* 피드 영역 */
 .feed-section {
     width: 714px;
-    height: 884px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 36px;
 
     padding-top: 24px;
-    background-color: #fff;
+    padding-bottom: 80px;
+
+    background-color: #ffffff;
 }
 
+/* 게시물 카드 */
 .post-card {
     width: 480px;
-    background: #fff;
+
+    background-color: #ffffff;
+    border-bottom: 1px solid #dbdbdb;
+    padding-bottom: 24px;
 }
 
+/* 게시물 헤더 */
 .post-header {
     height: 48px;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.post-user-link,
+.post-author-link {
+    display: flex;
+    align-items: center;
     gap: 8px;
+
+    color: #111111;
+    text-decoration: none;
+}
+
+.post-user-link:hover .post-username,
+.post-author-link:hover .post-username {
+    text-decoration: underline;
 }
 
 .post-profile-img {
@@ -173,27 +208,19 @@
 }
 
 .post-username {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
 }
 
-.post-author-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    color: inherit;
-    text-decoration: none;
-}
-
+/* 더보기 드롭다운 */
 .post-menu-wrap {
     position: relative;
     margin-left: auto;
 }
 
 .post-more-btn {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
 
     border: none;
     background: none;
@@ -208,7 +235,7 @@
 .post-more-icon {
     width: 24px;
     height: 24px;
-    display: block:
+    display: block;
 }
 
 .post-dropdown {
@@ -219,6 +246,7 @@
     right: 0;
 
     width: 170px;
+
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
@@ -236,12 +264,16 @@
     height: 44px;
     padding: 0 16px;
 
+    display: flex;
+    align-items: center;
+
     border: none;
     background-color: #ffffff;
 
     text-align: left;
     font-size: 13px;
     color: #111111;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -250,64 +282,94 @@
     background-color: #f2f2f2;
 }
 
+/* 게시물 이미지 */
+.post-img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    border: 1px solid #dbdbdb;
+    background-color: #f5f5f5;
+
+    overflow: hidden;
+}
+
+.post-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+}
+
+/* 예전 class 대응 */
 .post-image {
     width: 100%;
-    height: 582px;
-    background-color: #eeeeee;
+    aspect-ratio: 1 / 1;
+
     overflow: hidden;
 }
 
 .post-image img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+    display: block;
 }
 
+/* 게시물 액션 */
+.post-action-row,
 .post-actions {
     width: 100%;
-    height: 24px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0;
-    padding-top: 20px;
+    padding-top: 12px;
 }
 
 .left-actions {
     display: flex;
     align-items: center;
-    gap: 4px;
-    
+    gap: 14px;
 }
 
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.post-action-btn,
 .like-btn,
 .comment-btn,
 .share-btn,
 .save-btn {
+    width: 24px;
+    height: 24px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 24px;
-    height: 24px;
 
     border: none;
     background: none;
     padding: 0;
     cursor: pointer;
-    
 }
 
+.post-action-icon,
 .post-icon {
     width: 24px;
     height: 24px;
+
     object-fit: contain;
+    display: block;
 }
 
 .action-count {
-    margin-right: 10px;
+    margin-right: 6px;
 
     font-size: 14px;
     color: #111111;
@@ -316,11 +378,13 @@
 /* 게시물 본문 */
 .post-content {
     width: 100%;
-    padding-top: 20px;
+    padding-top: 14px;
 }
 
 .post-caption {
-    font-size: 12px;
+    margin: 0;
+
+    font-size: 13px;
     line-height: 1.5;
     color: #111111;
 }
@@ -330,21 +394,30 @@
     font-weight: 700;
 }
 
+.empty-feed-text {
+    margin-top: 80px;
+
+    text-align: center;
+    font-size: 16px;
+    color: #777777;
+}
+
 /* 우측 유저 추천 칸 */
 .recommend-section {
     width: 320px;
     min-height: 100vh;
+
     padding-top: 60px;
     padding-left: 27px;
     padding-right: 27px;
+
     background-color: #ffffff;
-
     border-left: 1px solid #dbdbdb;
-
 }
 
 .recommend-title {
     margin-bottom: 24px;
+
     font-size: 18px;
     font-weight: 700;
     color: #111111;
@@ -368,11 +441,17 @@
     gap: 19px;
 
     color: #111111;
+    text-decoration: none;
+}
+
+.recommend-user-link:hover .recommend-username {
+    text-decoration: underline;
 }
 
 .recommend-profile-img {
     width: 46px;
     height: 46px;
+
     border-radius: 50%;
     object-fit: cover;
 }
@@ -384,7 +463,507 @@
 }
 
 .recommend-follow-btn {
-    color: #0144FF;
+    border: none;
+    background: none;
+    padding: 0;
+
+    color: #0144ff;
     font-size: 15px;
     font-weight: 700;
+    cursor: pointer;
+}
+
+.recommend-follow-btn:hover {
+    text-decoration: underline;
+}
+
+.recommend-follow-btn.following {
+    color: #111111;
+}
+
+.recommend-follow-btn.following:hover {
+    text-decoration: underline;
+}
+
+/* 댓글 팝업 */
+.comment-modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+.comment-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.comment-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: 920px;
+    height: 620px;
+
+    display: flex;
+
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.comment-modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 2;
+
+    border: none;
+    background: none;
+
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.comment-modal-image-area {
+    width: 580px;
+    height: 620px;
+
+    background-color: #000000;
+}
+
+.comment-modal-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    display: block;
+}
+
+.comment-modal-info-area {
+    width: 340px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: #ffffff;
+}
+
+.comment-post-header {
+    padding: 20px;
+
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.comment-post-author {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.comment-post-content {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.comment-list {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.comment-main {
+    display: flex;
+    gap: 8px;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.comment-username {
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+.comment-content {
+    word-break: break-all;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-left: 4px;
+}
+
+.comment-edit-btn,
+.comment-delete-btn {
+    border: none;
+    background: none;
+    padding: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.comment-edit-btn {
+    color: #0144ff;
+}
+
+.comment-delete-btn {
+    color: #ed4956;
+}
+
+.comment-edit-input {
+    width: 180px;
+
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    padding: 4px 6px;
+
+    font-size: 13px;
+}
+
+.comment-form {
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 16px;
+
+    border-top: 1px solid #dbdbdb;
+}
+
+.comment-input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    font-size: 14px;
+}
+
+.comment-submit-btn {
+    border: none;
+    background: none;
+
+    color: #0144ff;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* 내 스토리 업로드 버튼 */
+.story-upload-open-btn,
+.story-open-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.my-story-wrap {
+    position: relative;
+}
+
+
+/* 스토리 보기 팝업 */
+.story-modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+}
+
+.story-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.story-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: 360px;
+    height: 560px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.story-modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    background-color: rgba(255, 255, 255, 0.9);
+
+    font-size: 15px;
+    font-weight: 700;
+    z-index: 3;
+}
+
+.story-modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 4;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.story-modal-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    background-color: #000000;
+}
+
+.story-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.85);
+
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.story-prev-btn {
+    left: 12px;
+}
+
+.story-next-btn {
+    right: 12px;
+}
+
+/* 스토리 업로드 팝업 */
+.story-upload-modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+}
+
+.story-upload-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-upload-overlay {
+    position: absolute;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.story-upload-content {
+    position: relative;
+    z-index: 1;
+
+    width: 420px;
+    min-height: 440px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    padding: 28px;
+
+    background-color: #ffffff;
+    border-radius: 16px;
+}
+
+.story-upload-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.story-upload-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.story-upload-box {
+    width: 300px;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    border: 1px dashed #999999;
+    border-radius: 14px;
+    background-color: #fafafa;
+
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.story-upload-icon {
+    width: 52px;
+    height: 52px;
+}
+
+.story-upload-text {
+    font-size: 14px;
+    color: #555555;
+}
+
+.story-preview-img {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.story-file-input {
+    display: none;
+}
+
+.story-submit-btn {
+    width: 300px;
+    height: 44px;
+
+    border: none;
+    border-radius: 10px;
+    background-color: #0144ff;
+
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* 스토리 버튼 기본 */
+.story-open-btn,
+.story-upload-open-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.story-name-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.story-name-link:hover .story-name {
+    text-decoration: underline;
+}
+
+/* 내 스토리 아이템 */
+.my-story-item {
+    position: relative;
+}
+
+.my-story-profile-btn {
+    position: relative;
+    z-index: 1;
+}
+
+.story-upload-open-btn {
+    position: absolute;
+    right: -2px;
+    bottom: 18px;
+    z-index: 20;
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background-color: #0144ff;
+
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+
+    cursor: pointer;
 }

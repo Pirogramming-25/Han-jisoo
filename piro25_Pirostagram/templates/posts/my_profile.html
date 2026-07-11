@@ -4,14 +4,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Pirostagram - 유저 피드</title>
+    <title>Pirostagram - 내 프로필</title>
 
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/my-profile.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" 
+        rel="stylesheet"
+    >
 </head>
 
 <body>
@@ -51,31 +54,38 @@
             </nav>
         </aside>
 
-        <!-- 다른 유저 프로필 메인 영역 -->
+        <!-- 내 프로필 메인 영역 -->
         <main class="user-profile-area">
 
             <!-- 프로필 상단 정보 -->
             <section class="user-profile-header">
                 <div class="profile-top">
-                    <!-- 프로필 사진 클릭 -->
+
+                    <!-- 실제 내 프로필 사진 -->
                     <a href="#" class="user-profile-img-link">
-                        <img src="{% static 'images/profile1.webp' %}" alt="유저 프로필 이미지" class="user-profile-img">
+                        <img 
+                            src="{{ profile_image_url }}" 
+                            alt="내 프로필" 
+                            class="user-profile-img"
+                            id="myProfileImg"
+                        >
                     </a>
 
                     <div class="user-profile-info">
 
-                        <!-- 유저 아이디 클릭 -->
                         <a href="#" class="user-profile-id-link">
                             <h2 class="user-profile-id">wltn1.2</h2>
                         </a>
 
-                        <!-- 이름/소개 클릭 -->
                         <a href="#" class="user-profile-name-link">
                             <p class="user-profile-name">한지수</p>
                         </a>
 
                         <div class="user-profile-stats">
-                            <a href="#" class="profile-stat-item-posts">게시물<strong>0</strong></a>
+                            <a href="#" class="profile-stat-item-posts">
+                                게시물<strong id="postCount">{{ post_count }}</strong>
+                            </a>
+
                             <a href="#" class="profile-stat-item">
                                 팔로워<strong>{{ follower_count }}</strong>
                             </a>
@@ -85,28 +95,37 @@
                             </a>
                         </div>
 
-                        <a href="#" class="user-profile-bio-link">소개글이 없습니다.</a>
+                        <a href="#" class="user-profile-bio-link" id="myProfileBio">
+                            {% if profile.bio %}
+                                {{ profile.bio }}
+                            {% else %}
+                                소개글이 없습니다.
+                            {% endif %}
+                        </a>
                     </div>
-
-                    
                 </div>
-                <!-- 버튼들도 페이지 이동 -->
-                    <div class="profile-button-row">
-                        <a href="#" class="profile-following-btn">
-                            프로필 편집
-                        </a>
 
-                        <a href="{% url 'main' %}" class="profile-back-btn">
-                            돌아가기
-                        </a>
-                    </div>
+                <div class="profile-button-row">
+                    <button 
+                        type="button" 
+                        class="profile-following-btn"
+                        id="profileEditOpenBtn"
+                    >
+                        프로필 편집
+                    </button>
+
+                    <a href="{% url 'main' %}" class="profile-back-btn">
+                        돌아가기
+                    </a>
+                </div>
             </section>
 
-            <!-- 게시물 탭 -->
+            <!-- 게시물 / 저장 탭 -->
             <section class="profile-tab-section">
                 <button type="button" class="profile-tab active" data-tab="posts">
                     <img src="{% static 'icons/grip.svg' %}" alt="게시물 탭" class="profile-tab-icon">
                 </button>
+
                 <button type="button" class="profile-tab" data-tab="saved">
                     <img src="{% static 'icons/bookmark.svg' %}" alt="저장 탭" class="profile-tab-icon">
                 </button>
@@ -114,30 +133,58 @@
 
             <!-- 탭 내용 영역 -->
             <section class="profile-tab-content">
+
                 <!-- 게시물 탭 내용 -->
                 <div class="tab-panel active" id="posts-panel">
-                    <div class="empty-profile-content">
-                        <div class="empty-icon-wrap">
-                            <img src="{% static 'icons/camera.svg' %}" alt="사진 공유 아이콘" class="empty-icon">
+                    {% if posts %}
+                        <section class="user-post-grid">
+                            {% for post in posts %}
+                                <button 
+                                    type="button" 
+                                    class="user-post-item post-modal-open-btn"
+                                    data-post-id="{{ post.id }}"
+                                    data-post-image="{{ post.image.url }}"
+                                    data-post-content="{{ post.content }}"
+                                >
+                                    <img 
+                                        src="{{ post.image.url }}" 
+                                        alt="게시글 이미지" 
+                                        class="user-post-img"
+                                    >
+                                </button>
+                            {% endfor %}
+                        </section>
+                    {% else %}
+                        <div class="empty-profile-content">
+                            <div class="empty-icon-wrap">
+                                <img 
+                                    src="{% static 'icons/image.svg' %}" 
+                                    alt="사진 공유 아이콘" 
+                                    class="empty-icon"
+                                >
+                            </div>
+
+                            <h2 class="empty-title">사진 공유</h2>
+                            <p class="empty-description">
+                                사진을 공유하면 회원님의 프로필에 표시됩니다.
+                            </p>
+
+                            <a href="{% url 'post_create' %}" class="photo-share-btn">
+                                첫 사진 공유하기
+                            </a>
                         </div>
-
-                        <h2 class="empty-title">사진 공유</h2>
-
-                        <p class="empty-description">
-                            사진을 공유하면 회원님의 프로필에 표시됩니다.
-                        </p>
-
-                        <a href="{% url 'post_create' %}" class="photo-share-btn">
-                            첫 사진 공유하기
-                        </a>
-                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- 저장됨 탭 내용 -->
                 <div class="tab-panel" id="saved-panel">
                     <div class="empty-profile-content">
                         <div class="empty-icon-wrap">
-                            <img src="{% static 'icons/bookmark.svg' %}" alt="저장됨 아이콘" class="empty-icon">
+                            <img 
+                                src="{% static 'icons/bookmark.svg' %}" 
+                                alt="저장됨 아이콘" 
+                                class="empty-icon"
+                            >
                         </div>
 
                         <h2 class="empty-title">저장된 게시물 없음</h2>
@@ -151,7 +198,107 @@
             </section>
 
         </main>
-
     </div>
+
+    <!-- 게시글 상세 팝업 -->
+    <div class="post-modal" id="postModal">
+        <div class="post-modal-overlay" id="postModalOverlay"></div>
+
+        <div class="post-modal-content">
+            <button type="button" class="post-modal-close-btn" id="postModalCloseBtn">
+                ×
+            </button>
+
+            <div class="post-modal-image-area">
+                <img 
+                    src="" 
+                    alt="게시글 상세 이미지" 
+                    class="post-modal-img" 
+                    id="postModalImg"
+                >
+            </div>
+
+            <div class="post-modal-info-area">
+                <div class="post-modal-writer">
+                    <img 
+                        src="{{ profile_image_url }}" 
+                        alt="내 프로필" 
+                        class="post-modal-writer-img"
+                    >
+                    <span class="post-modal-writer-name">wltn1.2</span>
+                </div>
+
+                <textarea 
+                    class="post-modal-caption-input" 
+                    id="postModalCaptionInput"
+                    readonly
+                ></textarea>
+
+                <div class="post-modal-btn-row">
+                    <button type="button" class="post-edit-btn" id="postEditBtn">
+                        수정
+                    </button>
+
+                    <button type="button" class="post-delete-btn" id="postDeleteBtn">
+                        삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 프로필 편집 팝업 -->
+    <div class="profile-edit-modal" id="profileEditModal">
+        <div class="profile-edit-overlay" id="profileEditOverlay"></div>
+
+        <form class="profile-edit-content" id="profileEditForm">
+            <button type="button" class="profile-edit-close-btn" id="profileEditCloseBtn">
+                ×
+            </button>
+
+            <h2 class="profile-edit-title">프로필 편집</h2>
+
+            <div class="profile-edit-img-area">
+                <img 
+                    src="{{ profile_image_url }}" 
+                    alt="프로필 미리보기" 
+                    class="profile-edit-preview-img"
+                    id="profileEditPreviewImg"
+                >
+
+                <label for="profileImageInput" class="profile-image-change-btn">
+                    프로필 사진 변경
+                </label>
+
+                <input 
+                    type="file" 
+                    id="profileImageInput"
+                    name="image"
+                    accept="image/*"
+                    class="profile-image-input"
+                >
+            </div>
+
+            <div class="profile-edit-bio-area">
+                <label for="profileBioInput" class="profile-edit-label">
+                    소개글
+                </label>
+
+                <textarea 
+                    id="profileBioInput"
+                    name="bio"
+                    class="profile-bio-input"
+                    placeholder="소개글을 입력하세요..."
+                >{{ profile.bio }}</textarea>
+            </div>
+
+            <button type="submit" class="profile-edit-submit-btn">
+                저장
+            </button>
+        </form>
+    </div>
+
+    <script src="{% static 'js/profile-edit.js' %}"></script>
+    <script src="{% static 'js/post-modal.js' %}"></script>
 </body>
 </html>
