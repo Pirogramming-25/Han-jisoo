@@ -1,0 +1,134 @@
+{% extends "my_gpt/base.html" %}
+
+{% block title %}
+감정 분석 | Django GPT
+{% endblock %}
+
+{% block content %}
+<section class="ai-page">
+    <div class="page-heading">
+        <h2>😊 감정 분석</h2>
+
+        <p>
+            영어 문장의 긍정, 중립, 부정 감정을 분석합니다.
+        </p>
+    </div>
+
+    <div class="model-info">
+        <p>
+            <strong>사용 모델</strong>
+            cardiffnlp/twitter-roberta-base-sentiment-latest
+        </p>
+
+        <p>
+            <strong>입력 언어</strong>
+            영어
+        </p>
+    </div>
+
+    <form id="sentiment-form">
+        {% csrf_token %}
+
+        <label for="sentiment-input">
+            분석할 영어 문장
+        </label>
+
+        <textarea
+            id="sentiment-input"
+            name="text"
+            rows="8"
+            maxlength="1000"
+            placeholder="예: I really enjoyed this product."
+        ></textarea>
+
+        <div class="input-meta">
+            <span id="character-count">0 / 1,000</span>
+        </div>
+
+        <button
+            id="sentiment-button"
+            type="submit"
+        >
+            감정 분석 실행
+        </button>
+    </form>
+
+    <p
+        id="loading-message"
+        class="loading-message"
+        hidden
+    >
+        모델을 실행하고 있습니다...
+    </p>
+
+    <div
+        id="error-message"
+        class="error-message"
+        hidden
+    ></div>
+
+    <section
+        id="result-section"
+        class="result-section"
+        hidden
+    >
+        <h3>분석 결과</h3>
+
+        <p>
+            감정:
+            <strong id="result-label"></strong>
+        </p>
+
+        <p>
+            신뢰도:
+            <strong id="result-score"></strong>
+        </p>
+
+        <div id="all-scores"></div>
+    </section>
+
+    <section class="history-section">
+        <h3>최근 실행 기록</h3>
+
+        <div id="history-list">
+            {% if user.is_authenticated %}
+                {% for history in histories %}
+                    <article class="history-item">
+                        <p class="history-input">
+                            {{ history.input_text|truncatechars:100 }}
+                        </p>
+
+                        <p>
+                            {{ history.result_data.label|title }}
+                            ·
+                            {% widthratio history.result_data.score 1 100 %}%
+                        </p>
+
+                        <time>
+                            {{ history.created_at|date:"Y-m-d H:i" }}
+                        </time>
+                    </article>
+                {% empty %}
+                    <p id="empty-history">
+                        아직 실행 기록이 없습니다.
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p id="empty-history">
+                    아직 실행 기록이 없습니다.
+                </p>
+            {% endif %}
+        </div>
+    </section>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+    const sentimentRunUrl =
+        "{% url 'my_gpt:run_sentiment' %}";
+
+    const isAuthenticated =
+        "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+</script>
+{% endblock %}

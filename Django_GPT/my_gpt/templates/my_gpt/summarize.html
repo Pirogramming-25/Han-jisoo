@@ -1,0 +1,135 @@
+{% extends "my_gpt/base.html" %}
+
+{% block title %}
+문서 요약 | Django GPT
+{% endblock %}
+
+{% block content %}
+<section class="ai-page">
+    <div class="page-heading">
+        <h2>📄 문서 요약</h2>
+
+        <p>
+            긴 영어 문서를 핵심 내용 중심으로 요약합니다.
+        </p>
+    </div>
+
+    <div class="model-info">
+        <p>
+            <strong>사용 모델</strong>
+            sshleifer/distilbart-cnn-6-6
+        </p>
+
+        <p>
+            <strong>입력 언어</strong>
+            영어
+        </p>
+    </div>
+
+    <form id="summarize-form">
+        {% csrf_token %}
+
+        <label for="summarize-input">
+            요약할 영어 문서
+        </label>
+
+        <textarea
+            id="summarize-input"
+            name="text"
+            rows="14"
+            maxlength="5000"
+            placeholder="100자 이상의 영어 문서를 입력해주세요."
+        ></textarea>
+
+        <div class="input-meta">
+            <span id="summarize-character-count">
+                0 / 5,000
+            </span>
+        </div>
+
+        <button
+            id="summarize-button"
+            type="submit"
+        >
+            문서 요약 실행
+        </button>
+    </form>
+
+    <p
+        id="summarize-loading"
+        class="loading-message"
+        hidden
+    >
+        문서를 요약하고 있습니다...
+    </p>
+
+    <div
+        id="summarize-error"
+        class="error-message"
+        hidden
+    ></div>
+
+    <section
+        id="summarize-result"
+        class="result-section"
+        hidden
+    >
+        <h3>요약 결과</h3>
+
+        <div class="summary-statistics">
+            <p>
+                원문 길이:
+                <strong id="original-length"></strong>
+            </p>
+
+            <p>
+                요약문 길이:
+                <strong id="summary-length"></strong>
+            </p>
+
+            <p>
+                요약 비율:
+                <strong id="summary-ratio"></strong>
+            </p>
+        </div>
+
+        <div>
+            <h4>요약문</h4>
+            <p id="summary-text"></p>
+        </div>
+    </section>
+
+    <section class="history-section">
+        <h3>최근 실행 기록</h3>
+
+        <div id="summarize-history-list">
+            {% for history in histories %}
+                <article class="history-item">
+                    <p class="history-input">
+                        {{ history.input_text|truncatechars:100 }}
+                    </p>
+
+                    <p>
+                        {{ history.output_text|truncatechars:180 }}
+                    </p>
+
+                    <time>
+                        {{ history.created_at|date:"Y-m-d H:i" }}
+                    </time>
+                </article>
+            {% empty %}
+                <p id="summarize-empty-history">
+                    아직 실행 기록이 없습니다.
+                </p>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+    const summarizeRunUrl =
+        "{% url 'my_gpt:run_summarize' %}";
+</script>
+{% endblock %}

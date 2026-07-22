@@ -1,0 +1,130 @@
+{% extends "my_gpt/base.html" %}
+
+{% block title %}
+유해 표현 분석 | Django GPT
+{% endblock %}
+
+{% block content %}
+<section class="ai-page">
+    <div class="page-heading">
+        <h2>🚨 유해 표현 분석</h2>
+
+        <p>
+            영어 문장의 유해성 및 위험 표현을 분석합니다.
+        </p>
+    </div>
+
+    <div class="model-info">
+        <p>
+            <strong>사용 모델</strong>
+            unitary/toxic-bert
+        </p>
+
+        <p>
+            <strong>입력 언어</strong>
+            영어
+        </p>
+    </div>
+
+    <form id="moderate-form">
+        {% csrf_token %}
+
+        <label for="moderate-input">
+            분석할 영어 문장
+        </label>
+
+        <textarea
+            id="moderate-input"
+            name="text"
+            rows="8"
+            maxlength="1000"
+            placeholder="유해성을 분석할 영어 문장을 입력해주세요."
+        ></textarea>
+
+        <div class="input-meta">
+            <span id="moderate-character-count">
+                0 / 1,000
+            </span>
+        </div>
+
+        <button
+            id="moderate-button"
+            type="submit"
+        >
+            유해 표현 분석 실행
+        </button>
+    </form>
+
+    <p
+        id="moderate-loading"
+        class="loading-message"
+        hidden
+    >
+        유해 표현을 분석하고 있습니다...
+    </p>
+
+    <div
+        id="moderate-error"
+        class="error-message"
+        hidden
+    ></div>
+
+    <section
+        id="moderate-result"
+        class="result-section"
+        hidden
+    >
+        <h3>분석 결과</h3>
+
+        <p>
+            최고 위험 레이블:
+            <strong id="highest-label"></strong>
+        </p>
+
+        <p>
+            위험 점수:
+            <strong id="highest-score"></strong>
+        </p>
+
+        <div>
+            <h4>전체 레이블 점수</h4>
+            <div id="moderate-all-scores"></div>
+        </div>
+    </section>
+
+    <section class="history-section">
+        <h3>최근 실행 기록</h3>
+
+        <div id="moderate-history-list">
+            {% for history in histories %}
+                <article class="history-item">
+                    <p class="history-input">
+                        {{ history.input_text|truncatechars:100 }}
+                    </p>
+
+                    <p>
+                        {{ history.result_data.highest_label }}
+                        ·
+                        {{ history.output_text }}
+                    </p>
+
+                    <time>
+                        {{ history.created_at|date:"Y-m-d H:i" }}
+                    </time>
+                </article>
+            {% empty %}
+                <p id="moderate-empty-history">
+                    아직 실행 기록이 없습니다.
+                </p>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+    const moderateRunUrl =
+        "{% url 'my_gpt:run_moderate' %}";
+</script>
+{% endblock %}
