@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>상품 등록</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'nutrient/css/nutrition.css' %}"
+    >
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h2>상품 등록</h2>
+
+        <p class="text-secondary mb-0">
+            상품 정보와 영양성분표 이미지를 등록해주세요.
+            영양성분표 이미지를 선택하면 칼로리와 탄단지가
+            자동으로 입력됩니다.
+        </p>
+    </div>
+
+    <form
+        id="post-form"
+        action="{% url 'posts:create' %}"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <section class="mb-4">
+            <h3 class="h5 mb-3">상품 기본 정보</h3>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.title.id_for_label }}"
+                    class="form-label"
+                >
+                    제목
+                </label>
+
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.content.id_for_label }}"
+                    class="form-label"
+                >
+                    내용
+                </label>
+
+                {{ form.content }}
+                {{ form.content.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.region.id_for_label }}"
+                    class="form-label"
+                >
+                    지역
+                </label>
+
+                {{ form.region }}
+                {{ form.region.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.user.id_for_label }}"
+                    class="form-label"
+                >
+                    작성자
+                </label>
+
+                {{ form.user }}
+                {{ form.user.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.price.id_for_label }}"
+                    class="form-label"
+                >
+                    가격
+                </label>
+
+                {{ form.price }}
+                {{ form.price.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.photo.id_for_label }}"
+                    class="form-label"
+                >
+                    상품 이미지
+                </label>
+
+                {{ form.photo }}
+                {{ form.photo.errors }}
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h3 class="h5 mb-3">영양성분 정보</h3>
+
+            <p class="text-secondary">
+                영양성분표를 선택하면 OCR 분석이 자동으로 시작됩니다.
+                자동 입력된 값은 직접 수정할 수 있습니다.
+            </p>
+
+            <div class="mb-3">
+                <label
+                    for="{{ form.nutrition_image.id_for_label }}"
+                    class="form-label"
+                >
+                    영양성분표 이미지
+                </label>
+
+                {{ form.nutrition_image }}
+
+                <div class="form-text">
+                    영양성분표가 선명하게 보이는 이미지를 선택해주세요.
+                </div>
+
+                {{ form.nutrition_image.errors }}
+            </div>
+
+            <div
+                id="nutrition-preview-wrapper"
+                class="mb-3"
+                hidden
+            >
+                <p class="fw-bold mb-2">영양성분표 미리보기</p>
+
+                <img
+                    id="nutrition-preview"
+                    src=""
+                    alt="영양성분표 미리보기"
+                    class="nutrition-preview"
+                >
+            </div>
+
+            <div
+                id="ocr-status"
+                class="mb-3"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="{{ form.calories.id_for_label }}"
+                        class="form-label"
+                    >
+                        칼로리(kcal)
+                    </label>
+
+                    {{ form.calories }}
+                    {{ form.calories.errors }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="{{ form.carbohydrate.id_for_label }}"
+                        class="form-label"
+                    >
+                        탄수화물(g)
+                    </label>
+
+                    {{ form.carbohydrate }}
+                    {{ form.carbohydrate.errors }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="{{ form.protein.id_for_label }}"
+                        class="form-label"
+                    >
+                        단백질(g)
+                    </label>
+
+                    {{ form.protein }}
+                    {{ form.protein.errors }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="{{ form.fat.id_for_label }}"
+                        class="form-label"
+                    >
+                        지방(g)
+                    </label>
+
+                    {{ form.fat }}
+                    {{ form.fat.errors }}
+                </div>
+            </div>
+        </section>
+
+        <div class="d-flex gap-2">
+            <button
+                id="submit-button"
+                type="submit"
+                class="btn btn-success"
+            >
+                등록하기
+            </button>
+
+            <a
+                href="{% url 'posts:main' %}"
+                class="btn btn-outline-secondary"
+            >
+                목록으로
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const nutritionImageInput =
+            document.querySelector("#id_nutrition_image");
+
+        const caloriesInput =
+            document.querySelector("#id_calories");
+
+        const carbohydrateInput =
+            document.querySelector("#id_carbohydrate");
+
+        const proteinInput =
+            document.querySelector("#id_protein");
+
+        const fatInput =
+            document.querySelector("#id_fat");
+
+        const statusElement =
+            document.querySelector("#ocr-status");
+
+        const previewWrapper =
+            document.querySelector(
+                "#nutrition-preview-wrapper"
+            );
+
+        const previewImage =
+            document.querySelector("#nutrition-preview");
+
+        const submitButton =
+            document.querySelector("#submit-button");
+
+        const csrfToken = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+        ).value;
+
+        if (
+            !nutritionImageInput ||
+            !caloriesInput ||
+            !carbohydrateInput ||
+            !proteinInput ||
+            !fatInput
+        ) {
+            console.error(
+                "영양성분 관련 폼 필드를 찾지 못했습니다."
+            );
+
+            return;
+        }
+
+        nutritionImageInput.addEventListener(
+            "change",
+            async () => {
+                const imageFile =
+                    nutritionImageInput.files[0];
+
+                if (!imageFile) {
+                    resetNutritionFields();
+                    hidePreview();
+                    return;
+                }
+
+                if (!imageFile.type.startsWith("image/")) {
+                    setStatus(
+                        "이미지 파일만 선택할 수 있습니다.",
+                        "danger"
+                    );
+
+                    nutritionImageInput.value = "";
+                    hidePreview();
+                    return;
+                }
+
+                showPreview(imageFile);
+                await analyzeImage(imageFile);
+            }
+        );
+
+        async function analyzeImage(imageFile) {
+            const formData = new FormData();
+
+            formData.append(
+                "image",
+                imageFile
+            );
+
+            setStatus(
+                "영양성분표를 분석하고 있습니다.",
+                "secondary"
+            );
+
+            setLoadingState(true);
+
+            try {
+                const response = await fetch(
+                    "{% url 'nutrient:analyze' %}",
+                    {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": csrfToken
+                        },
+                        body: formData
+                    }
+                );
+
+                const data = await response.json();
+
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
+                    throw new Error(
+                        data.message ||
+                        "OCR 분석에 실패했습니다."
+                    );
+                }
+
+                caloriesInput.value =
+                    data.calories ?? "";
+
+                carbohydrateInput.value =
+                    data.carbohydrate ?? "";
+
+                proteinInput.value =
+                    data.protein ?? "";
+
+                fatInput.value =
+                    data.fat ?? "";
+
+                setStatus(
+                    "분석이 완료되었습니다. " +
+                    "자동 입력된 값을 확인해주세요.",
+                    "success"
+                );
+
+            } catch (error) {
+                console.error(error);
+
+                setStatus(
+                    error.message ||
+                    "이미지 분석 중 오류가 발생했습니다.",
+                    "danger"
+                );
+
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        function setLoadingState(isLoading) {
+            submitButton.disabled = isLoading;
+
+            const nutritionInputs = [
+                caloriesInput,
+                carbohydrateInput,
+                proteinInput,
+                fatInput
+            ];
+
+            nutritionInputs.forEach((input) => {
+                input.placeholder = isLoading
+                    ? "분석 중..."
+                    : "OCR 분석 후 자동 입력";
+            });
+        }
+
+        function setStatus(message, type) {
+            statusElement.textContent = message;
+
+            statusElement.className =
+                `alert alert-${type}`;
+        }
+
+        function resetNutritionFields() {
+            caloriesInput.value = "";
+            carbohydrateInput.value = "";
+            proteinInput.value = "";
+            fatInput.value = "";
+
+            statusElement.textContent = "";
+            statusElement.className = "mb-3";
+        }
+
+        function showPreview(imageFile) {
+            const previewUrl =
+                URL.createObjectURL(imageFile);
+
+            previewImage.src = previewUrl;
+            previewWrapper.hidden = false;
+
+            previewImage.onload = () => {
+                URL.revokeObjectURL(previewUrl);
+            };
+        }
+
+        function hidePreview() {
+            previewImage.removeAttribute("src");
+            previewWrapper.hidden = true;
+        }
+    });
+</script>
+{% endblock %}
