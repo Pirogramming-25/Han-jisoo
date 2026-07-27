@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 myMovieReviews/venv/
 .env
+
+RPSGame/hand_landmarker.task
+RPSGame/__pycache__/
+RPSGame/*.pyc

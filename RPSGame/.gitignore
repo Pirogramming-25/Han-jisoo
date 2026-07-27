@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+venv/
+*.taskhand_landmarker.task
